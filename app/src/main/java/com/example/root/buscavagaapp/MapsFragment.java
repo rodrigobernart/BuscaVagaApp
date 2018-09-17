@@ -1,6 +1,5 @@
 package com.example.root.buscavagaapp;
 
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -35,12 +34,15 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-//        mMap.getUiSettings().setZoomControlsEnabled(true);
-        mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+
+        //fazer funcionar esse diabo
+        //        mMap.setMyLocationEnabled(true);
+
+
+        LatLng b4 = new LatLng(-24.9531301, -53.4518725);
+        mMap.addMarker(new MarkerOptions().position(b4).title("Estacionamento B4"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(b4, 13));
     }
 }

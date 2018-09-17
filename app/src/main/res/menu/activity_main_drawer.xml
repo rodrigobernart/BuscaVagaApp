@@ -6,8 +6,14 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_mapa"
-            android:icon="@drawable/ic_location"
+            android:icon="@mipmap/ic_mapa"
             android:title="Mapa" />
+
+        <item
+            android:id="@+id/nav_preferencias"
+            android:icon="@mipmap/ic_preferencias"
+            android:title="Preferências"
+            />
     </group>
 
 

@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <!-- laranja -->
+    <!--<color name="colorPrimary">#FA9F00</color>-->
+    <!--<color name="colorPrimaryDark">#F99100</color>-->
+    <!--<color name="colorAccent">#FF4081</color>-->
+
+    <!-- cinza -->
+    <color name="colorPrimary">#2A3F54</color>
+    <color name="colorPrimaryDark">#425567</color>
+    <color name="colorAccent">#FBBA00</color>
 </resources>
