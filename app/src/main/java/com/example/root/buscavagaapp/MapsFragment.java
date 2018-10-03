@@ -1,17 +1,40 @@
 package com.example.root.buscavagaapp;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsFragment extends SupportMapFragment implements OnMapReadyCallback {
+import me.drakeet.materialdialog.MaterialDialog;
+
+public class MapsFragment extends SupportMapFragment implements OnMapReadyCallback, LocationListener {
 
     private GoogleMap mMap;
+    private LocationManager lm;
+    private Location location;
+    private double longitude = 0.0;
+    private double latitude = 0.0;
+    private MaterialDialog mMaterialDialog;
+
+    public static final String TAG = "LOG";
+    public static final int REQUEST_PERMISSIONS_CODE = 128;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -20,29 +43,157 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
         getMapAsync(this);
     }
 
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-
         mMap.getUiSettings().setZoomControlsEnabled(true);
 
-        //fazer funcionar esse diabo
-        //        mMap.setMyLocationEnabled(true);
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)) {
+                callDialog("É preciso que a permissão ACESS_FINE_LOCATION esteja liberada para acesso.", new String[]{Manifest.permission.ACCESS_FINE_LOCATION});
+            } else {
+                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSIONS_CODE);
+            }
+        } else {
+            readMyCurrentCoordinates();
+        }
+
+        mMap.setMyLocationEnabled(true);
 
 
         LatLng b4 = new LatLng(-24.9531301, -53.4518725);
         mMap.addMarker(new MarkerOptions().position(b4).title("Estacionamento B4"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(b4, 13));
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        LatLng latLng = new LatLng(-24, -53);
+        final Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title("Você está aqui!"));
+        latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        marker.setPosition(latLng);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
+    }
+
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissoes, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_PERMISSIONS_CODE: {
+                for (int i = 0; i < permissoes.length; i++) {
+                    if (permissoes[i].equalsIgnoreCase(Manifest.permission.ACCESS_FINE_LOCATION) && grantResults[i] == PackageManager.PERMISSION_GRANTED) {
+                        readMyCurrentCoordinates();
+                    }
+                }
+            }
+            super.onRequestPermissionsResult(requestCode, permissoes, grantResults);
+        }
+    }
+
+    //Pega as coordenadas do GPS e da Internet do aparelho e vai atualizando conforme o tempo
+    private void readMyCurrentCoordinates() {
+        LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        boolean isGPSHabilitado = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        boolean isInternetHabilitada = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        Location location = null;
+        double latitude = 0.0;
+        double longitude = 0.0;
+
+        if (!isGPSHabilitado && !isInternetHabilitada) {
+            Log.i(TAG, "Nenhum serviço de localização está habilitado para uso.");
+        } else {
+            if (isInternetHabilitada) {
+                if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)) {
+                        callDialog("É preciso que a permissão ACESS_FINE_LOCATION esteja liberada para acesso.", new String[]{Manifest.permission.ACCESS_FINE_LOCATION});
+                    } else {
+                        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSIONS_CODE);
+                    }
+                }
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2000, 0, this);
+                Log.d(TAG, "Internet");
+                location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                if (location != null) {
+                    latitude = location.getLatitude();
+                    longitude = location.getLongitude();
+                }
+            }
+
+            if (isGPSHabilitado) {
+                if (location == null) {
+                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 0, this);
+                    Log.d(TAG, "GPS Habilitado");
+                    location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                    if (location != null) {
+                        latitude = location.getLatitude();
+                        longitude = location.getLongitude();
+                    }
+                }
+            }
+        }
+        Log.i(TAG, "Latitude: "+latitude+" | Longitude: "+longitude);
+    }
+
+    //Alert solicitando permissão
+    private void callDialog(String mensagem, final String[] permissoes){
+        mMaterialDialog = new MaterialDialog(getActivity()).setTitle("Permissão").setMessage(mensagem).setPositiveButton("Ok", new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                ActivityCompat.requestPermissions(getActivity(), permissoes, REQUEST_PERMISSIONS_CODE);
+                mMaterialDialog.dismiss();
+            }
+        }).setNegativeButton("Cancelar", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMaterialDialog.dismiss();
+            }
+        });
+        mMaterialDialog.show();
+    }
+
+    public void configurarServico(){
+        try {
+            LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+
+            LocationListener locationListener = new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
+                    atualizar(location);
+                }
+
+                @Override
+                public void onStatusChanged(String provider, int status, Bundle extras) { }
+
+                @Override
+                public void onProviderEnabled(String provider) { }
+
+                @Override
+                public void onProviderDisabled(String provider) { }
+            };
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+        }  catch (SecurityException ex){
+            Toast.makeText(getActivity(), ex.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void atualizar(Location location){
+        Double latPoint = location.getLatitude();
+        Double longPoint = location.getLongitude();
     }
 }
