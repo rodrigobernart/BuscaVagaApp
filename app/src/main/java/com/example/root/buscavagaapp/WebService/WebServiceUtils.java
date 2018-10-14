@@ -26,14 +26,13 @@ public class WebServiceUtils{
 
                 JSONObject objArray = array.getJSONObject(i);
                 DadosEmpresas empresas = new DadosEmpresas();
-/* Ajustar primeiro a classe dos dados de empresa para ter os getters e setters
-                empresas.setData(objArray.getString("date"));
-                empresas.setDia(objArray.getString("day"));
-                empresas.setMaxima(objArray.getString("high"));
-                empresas.setMinima(objArray.getString("low"));
-                empresas.setTexto(objArray.getString("text"));
+
+                empresas.setNome_empresa(objArray.getString("nome_empresa"));
+                empresas.setTelefone_fixo(objArray.getString("telefone_fixo"));
+                empresas.setTelefone_cel(objArray.getString("telefone_cel"));
+                empresas.setLatitude(objArray.getString("latitude"));
+                empresas.setLongitude(objArray.getString("longitude"));
                 listaEmpresas.add(empresas);
-*/
             }
             return listaEmpresas;
 
