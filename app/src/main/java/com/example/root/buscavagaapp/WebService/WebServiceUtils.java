@@ -20,7 +20,7 @@ public class WebServiceUtils{
             ArrayList<DadosEmpresas> listaEmpresas = new ArrayList<>();
 
             JSONObject jsonObj = new JSONObject(json);
-            JSONArray array = jsonObj.getJSONArray("");
+            JSONArray array = jsonObj.getJSONArray("empresa");
 
             for(int i = 0; i < array.length(); i++){
 
