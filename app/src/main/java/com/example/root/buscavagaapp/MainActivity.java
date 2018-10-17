@@ -37,7 +37,10 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        new ExecutaConexao().execute();
+//        new ExecutaConexao().execute();
+
+        ExecutaConexao executaConexao = new ExecutaConexao();
+        executaConexao.execute();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -124,7 +127,7 @@ public class MainActivity extends AppCompatActivity
         protected ArrayList<DadosEmpresas> doInBackground(Void... params) {
             WebServiceUtils utils = new WebServiceUtils();
 
-            ArrayList<DadosEmpresas> dados = utils.retornaInformacoes("35.227.77.109:8000/conection.php");
+            ArrayList<DadosEmpresas> dados = utils.retornaInformacoes("http://35.227.77.109:8000/conection.php");
 
             return dados;
         }
