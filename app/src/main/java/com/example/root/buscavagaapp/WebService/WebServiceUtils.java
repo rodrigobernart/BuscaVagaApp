@@ -30,8 +30,8 @@ public class WebServiceUtils{
                 empresas.setNome_empresa(objArray.getString("nome_empresa"));
                 empresas.setTelefone_fixo(objArray.getString("telefone_fixo"));
                 empresas.setTelefone_cel(objArray.getString("telefone_cel"));
-                empresas.setLatitude(objArray.getString("latitude"));
-                empresas.setLongitude(objArray.getString("longitude"));
+                empresas.setLatitude(objArray.getDouble("latitude"));
+                empresas.setLongitude(objArray.getDouble("longitude"));
                 listaEmpresas.add(empresas);
             }
             return listaEmpresas;

@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private FragmentManager fragmentManager;
-    private ProgressDialog progressao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,11 +35,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-//        new ExecutaConexao().execute();
-
-        ExecutaConexao executaConexao = new ExecutaConexao();
-        executaConexao.execute();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -114,42 +108,5 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    private class ExecutaConexao extends AsyncTask<Void, Void, ArrayList<DadosEmpresas>> {
-        @Override
-        protected void onPreExecute() {
-            progressao = ProgressDialog.show(MainActivity.this, "Por favor aguarde", "Retornando dados do servidor");
-
-        }
-
-        @Override
-        protected ArrayList<DadosEmpresas> doInBackground(Void... params) {
-            WebServiceUtils utils = new WebServiceUtils();
-
-            ArrayList<DadosEmpresas> dados = utils.retornaInformacoes("http://35.227.77.109:8000/conection.php");
-
-            return dados;
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<DadosEmpresas> dadosEmpresas) {
-            super.onPostExecute(dadosEmpresas);
-
-            //Globals.list = new ArrayList<>();
-
-            for(DadosEmpresas dadosEmpresa : dadosEmpresas){
-                //Globals.list.add(dadosPrevisao);
-                //lvLista.setAdapter(new ListAdapterTemps(MainActivity.this, Globals.list));
-
-                Log.e("EMPRESAS", dadosEmpresa.getNome_empresa()+" - "+
-                        dadosEmpresa.getTelefone_cel()+" - "+
-                        dadosEmpresa.getTelefone_fixo()+" - "+
-                        dadosEmpresa.getLatitude()+" - "+
-                        dadosEmpresa.getLongitude());
-            }
-
-            progressao.dismiss();
-        }
     }
 }

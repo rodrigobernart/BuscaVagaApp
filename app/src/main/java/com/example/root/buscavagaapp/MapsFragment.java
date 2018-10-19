@@ -1,19 +1,24 @@
 package com.example.root.buscavagaapp;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.root.buscavagaapp.WebService.DadosEmpresas;
+import com.example.root.buscavagaapp.WebService.WebServiceUtils;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -21,6 +26,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.ArrayList;
 
 import me.drakeet.materialdialog.MaterialDialog;
 
@@ -32,6 +39,7 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
     private double longitude = 0.0;
     private double latitude = 0.0;
     private MaterialDialog mMaterialDialog;
+    private ProgressDialog progressao;
 
     public static final String TAG = "LOG";
     public static final int REQUEST_PERMISSIONS_CODE = 128;
@@ -60,10 +68,12 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
 
         mMap.setMyLocationEnabled(true);
 
+        ExecutaConexao executa = new ExecutaConexao();
+        executa.execute();
+        //LatLng b4 = new LatLng(-24.9531301, -53.4518725);
+        //mMap.addMarker(new MarkerOptions().position(b4).title("Estacionamento B4"));
+        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(b4, 13));
 
-        LatLng b4 = new LatLng(-24.9531301, -53.4518725);
-        mMap.addMarker(new MarkerOptions().position(b4).title("Estacionamento B4"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(b4, 13));
     }
 
     @Override
@@ -195,5 +205,38 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
     public void atualizar(Location location){
         Double latPoint = location.getLatitude();
         Double longPoint = location.getLongitude();
+    }
+    private class ExecutaConexao extends AsyncTask<Void, Void, ArrayList<DadosEmpresas>> {
+        @Override
+        protected void onPreExecute() {
+            progressao = ProgressDialog.show(getActivity(), "Por favor aguarde", "Retornando dados do servidor");
+
+        }
+
+        @Override
+        protected ArrayList<DadosEmpresas> doInBackground(Void... params) {
+            WebServiceUtils utils = new WebServiceUtils();
+
+            ArrayList<DadosEmpresas> dados = utils.retornaInformacoes("http://35.227.77.109:8000/conection.php");
+
+            return dados;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<DadosEmpresas> dadosEmpresas) {
+            super.onPostExecute(dadosEmpresas);
+
+            //Globals.list = new ArrayList<>();
+
+            for(DadosEmpresas dadosEmpresa : dadosEmpresas){
+                //Globals.list.add(String.valueOf(dadosEmpresa));
+                //lvLista.setAdapter(new ListAdapterTemps(MainActivity.this, Globals.list));
+                LatLng position = new LatLng(dadosEmpresa.getLatitude(), dadosEmpresa.getLongitude());
+                mMap.addMarker(new MarkerOptions().position(position).title(dadosEmpresa.getNome_empresa()));
+
+            }
+
+            //progressao.dismiss();
+        }
     }
 }
