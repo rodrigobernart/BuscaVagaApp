@@ -62,6 +62,7 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
             } else {
                 ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSIONS_CODE);
             }
+
         } else {
             readMyCurrentCoordinates();
         }
@@ -70,17 +71,23 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
 
         ExecutaConexao executa = new ExecutaConexao();
         executa.execute();
+
+
         //LatLng b4 = new LatLng(-24.9531301, -53.4518725);
         //mMap.addMarker(new MarkerOptions().position(b4).title("Estacionamento B4"));
         //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(b4, 13));
 
     }
 
+    private void zoomMapToMyLocation(Location location) {
+        LatLng lastLocation = new LatLng(location.getLatitude(), location.getLongitude());
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lastLocation, 13));
+
+    }
+
     @Override
     public void onLocationChanged(Location location) {
-        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
-
+        Log.e(TAG, "ta indo a localização, pega ai....lat: "+ location.getLatitude()+" long: "+ location.getLongitude());
     }
 
     @Override
@@ -155,6 +162,7 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
                 }
             }
         }
+        zoomMapToMyLocation(location);
         Log.i(TAG, "Latitude: "+latitude+" | Longitude: "+longitude);
     }
 
