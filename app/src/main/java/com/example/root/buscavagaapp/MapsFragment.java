@@ -78,11 +78,9 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
 
     @Override
     public void onLocationChanged(Location location) {
-        LatLng latLng = new LatLng(-24, -53);
-        final Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title("Você está aqui!"));
-        latLng = new LatLng(location.getLatitude(), location.getLongitude());
-        marker.setPosition(latLng);
+        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
+
     }
 
     @Override
@@ -226,17 +224,13 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
         protected void onPostExecute(ArrayList<DadosEmpresas> dadosEmpresas) {
             super.onPostExecute(dadosEmpresas);
 
-            //Globals.list = new ArrayList<>();
-
             for(DadosEmpresas dadosEmpresa : dadosEmpresas){
-                //Globals.list.add(String.valueOf(dadosEmpresa));
-                //lvLista.setAdapter(new ListAdapterTemps(MainActivity.this, Globals.list));
                 LatLng position = new LatLng(dadosEmpresa.getLatitude(), dadosEmpresa.getLongitude());
                 mMap.addMarker(new MarkerOptions().position(position).title(dadosEmpresa.getNome_empresa()));
 
             }
 
-            //progressao.dismiss();
+            progressao.dismiss();
         }
     }
 }
