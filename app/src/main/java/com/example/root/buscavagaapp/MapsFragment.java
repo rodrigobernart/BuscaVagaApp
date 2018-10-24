@@ -234,10 +234,8 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
 
             for(DadosEmpresas dadosEmpresa : dadosEmpresas){
                 LatLng position = new LatLng(dadosEmpresa.getLatitude(), dadosEmpresa.getLongitude());
-                mMap.addMarker(new MarkerOptions().position(position).title(dadosEmpresa.getNome_empresa()));
-
+                mMap.addMarker(new MarkerOptions().position(position).title(dadosEmpresa.getNome_empresa()).snippet("Teste 1"));
             }
-
             progressao.dismiss();
         }
     }
