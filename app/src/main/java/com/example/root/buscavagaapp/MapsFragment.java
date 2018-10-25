@@ -15,6 +15,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.root.buscavagaapp.WebService.DadosEmpresas;
@@ -71,11 +72,6 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
 
         ExecutaConexao executa = new ExecutaConexao();
         executa.execute();
-
-
-        //LatLng b4 = new LatLng(-24.9531301, -53.4518725);
-        //mMap.addMarker(new MarkerOptions().position(b4).title("Estacionamento B4"));
-        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(b4, 13));
 
     }
 
@@ -183,35 +179,6 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
         mMaterialDialog.show();
     }
 
-    public void configurarServico(){
-        try {
-            LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-
-            LocationListener locationListener = new LocationListener() {
-                @Override
-                public void onLocationChanged(Location location) {
-                    atualizar(location);
-                }
-
-                @Override
-                public void onStatusChanged(String provider, int status, Bundle extras) { }
-
-                @Override
-                public void onProviderEnabled(String provider) { }
-
-                @Override
-                public void onProviderDisabled(String provider) { }
-            };
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-        }  catch (SecurityException ex){
-            Toast.makeText(getActivity(), ex.getMessage(), Toast.LENGTH_LONG).show();
-        }
-    }
-
-    public void atualizar(Location location){
-        Double latPoint = location.getLatitude();
-        Double longPoint = location.getLongitude();
-    }
     private class ExecutaConexao extends AsyncTask<Void, Void, ArrayList<DadosEmpresas>> {
         @Override
         protected void onPreExecute() {
@@ -232,9 +199,28 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
         protected void onPostExecute(ArrayList<DadosEmpresas> dadosEmpresas) {
             super.onPostExecute(dadosEmpresas);
 
-            for(DadosEmpresas dadosEmpresa : dadosEmpresas){
+            for(final DadosEmpresas dadosEmpresa : dadosEmpresas){
                 LatLng position = new LatLng(dadosEmpresa.getLatitude(), dadosEmpresa.getLongitude());
-                mMap.addMarker(new MarkerOptions().position(position).title(dadosEmpresa.getNome_empresa()).snippet("Teste 1"));
+//                mMap.addMarker(new MarkerOptions().position(position).title(dadosEmpresa.getNome_empresa()));
+
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.position(position);
+
+                InfoWindowData info = new InfoWindowData();
+                info.setNome(dadosEmpresa.getNome_empresa());
+                //alterar para pegar da empresa quando tiver ajustada a tabela
+                info.setPrecoMeiaHora("Perço 1/2 Hora: " + "R$3,00");
+                info.setPrecoUmaHora("Preço 1 Hora: " + "R$5,00");
+                info.setPrecoDiaria("Preço Diária: " + "R$20,00");
+                info.setPrecoSemanal("Preço Semanal: " + "R$60,00");
+                info.setPrecoMensal("Preço Mensal: " + "R$150,00");
+
+                CustomInfoWindowGoogleMap customInfoWindow = new CustomInfoWindowGoogleMap(getActivity());
+                mMap.setInfoWindowAdapter(customInfoWindow);
+
+                Marker m = mMap.addMarker(markerOptions);
+                m.setTag(info);
+                m.showInfoWindow();
             }
             progressao.dismiss();
         }
