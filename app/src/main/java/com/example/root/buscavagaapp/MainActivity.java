@@ -1,11 +1,7 @@
 package com.example.root.buscavagaapp;
 
-import android.Manifest;
-import android.app.ProgressDialog;
-import android.content.pm.PackageManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
+
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -15,14 +11,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.root.buscavagaapp.WebService.DadosEmpresas;
-import com.example.root.buscavagaapp.WebService.WebServiceUtils;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -101,6 +92,9 @@ public class MainActivity extends AppCompatActivity
         switch(id){
             case R.id.nav_mapa:
                 showFragment(new MapsFragment(), "MapsFragment");
+                break;
+            case R.id.nav_preferencias:
+                showFragment(new PreferenciasFragment(), "PreferenciasFragment");
                 break;
         }
 

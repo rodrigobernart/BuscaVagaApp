@@ -11,12 +11,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.root.buscavagaapp.WebService.DadosEmpresas;
 import com.example.root.buscavagaapp.WebService.WebServiceUtils;
@@ -209,7 +206,7 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
                 InfoWindowData info = new InfoWindowData();
                 info.setNome(dadosEmpresa.getNome_empresa());
                 //alterar para pegar da empresa quando tiver ajustada a tabela
-                info.setPrecoMeiaHora("Perço 1/2 Hora: " + "R$3,00");
+                info.setPrecoMeiaHora("Preço 1/2 Hora: " + "R$3,00");
                 info.setPrecoUmaHora("Preço 1 Hora: " + "R$5,00");
                 info.setPrecoDiaria("Preço Diária: " + "R$20,00");
                 info.setPrecoSemanal("Preço Semanal: " + "R$60,00");
@@ -220,7 +217,7 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
 
                 Marker m = mMap.addMarker(markerOptions);
                 m.setTag(info);
-                m.showInfoWindow();
+//                m.showInfoWindow();
             }
             progressao.dismiss();
         }
