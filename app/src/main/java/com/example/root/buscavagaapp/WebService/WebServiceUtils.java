@@ -1,5 +1,8 @@
 package com.example.root.buscavagaapp.WebService;
 
+import com.example.root.buscavagaapp.modelo.DadosEmpresas;
+import com.example.root.buscavagaapp.modelo.ParametrosEmpresa;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,6 +18,7 @@ public class WebServiceUtils{
         retorno = converteJSON(json);
         return retorno;
     }
+
     private ArrayList<DadosEmpresas> converteJSON(String json){
         try{
             ArrayList<DadosEmpresas> listaEmpresas = new ArrayList<>();
@@ -37,6 +41,34 @@ public class WebServiceUtils{
             return listaEmpresas;
 
         } catch(JSONException ex){
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    private ArrayList<ParametrosEmpresa> converte(String json){
+        try {
+            ArrayList<ParametrosEmpresa> listaParametros = new ArrayList<>();
+
+            JSONObject jsonObj = new JSONObject(json);
+            JSONArray array = jsonObj.getJSONArray("parametros_empresa");
+
+            for (int i = 0; i < array.length(); i++){
+                JSONObject objArray = array.getJSONObject(i);
+                ParametrosEmpresa parametros = new ParametrosEmpresa();
+
+                parametros.setId_empresa(objArray.getInt("id_empresa"));
+                parametros.setTipo_veiculo(objArray.getString("tipo_veiculo").charAt(0));
+                parametros.setValor_meiahora(objArray.getDouble("valor_meiahora"));
+                parametros.setValor_umahora(objArray.getDouble("valor_umahora"));
+                parametros.setValor_diaria(objArray.getDouble("valor_diaria"));
+                parametros.setValor_semana(objArray.getDouble("valor_semana"));
+                parametros.setValor_mes(objArray.getDouble("valor_mes"));
+                listaParametros.add(parametros);
+            }
+            return listaParametros;
+
+        } catch (JSONException ex) {
             ex.printStackTrace();
             return null;
         }

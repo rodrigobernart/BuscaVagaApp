@@ -1,6 +1,4 @@
-package com.example.root.buscavagaapp.WebService;
-
-import android.provider.Settings;
+package com.example.root.buscavagaapp.modelo;
 
 public class DadosEmpresas {
     private String nome_empresa;

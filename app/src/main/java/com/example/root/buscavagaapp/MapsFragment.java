@@ -15,7 +15,7 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 
-import com.example.root.buscavagaapp.WebService.DadosEmpresas;
+import com.example.root.buscavagaapp.modelo.DadosEmpresas;
 import com.example.root.buscavagaapp.WebService.WebServiceUtils;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -189,6 +189,8 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
 
             ArrayList<DadosEmpresas> dados = utils.retornaInformacoes("http://35.227.77.109:8000/conection.php");
 
+//            ArrayList<ParametrosEmpresa> parametros = utils.retornaInformacoes("http://35.227.77.109:8000/parametros_empresa.php");
+
             return dados;
         }
 
@@ -198,7 +200,6 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
 
             for(final DadosEmpresas dadosEmpresa : dadosEmpresas){
                 LatLng position = new LatLng(dadosEmpresa.getLatitude(), dadosEmpresa.getLongitude());
-//                mMap.addMarker(new MarkerOptions().position(position).title(dadosEmpresa.getNome_empresa()));
 
                 MarkerOptions markerOptions = new MarkerOptions();
                 markerOptions.position(position);
