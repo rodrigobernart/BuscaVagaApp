@@ -27,8 +27,8 @@ public class PreferenciasUsuarioDAO {
     public long atualizar(PreferenciasUsuario preferenciasUsuario){
         ContentValues valores = new ContentValues();
         try {
-            valores.put("CARRO", preferenciasUsuario.isCarro());
             valores.put("MOTO", preferenciasUsuario.isMoto());
+            valores.put("CARRO", preferenciasUsuario.isCarro());
             valores.put("VALOR_MEIAHORA", preferenciasUsuario.isValor_meiahora());
             valores.put("VALOR_UMAHORA", preferenciasUsuario.isValor_umahora());
             valores.put("VALOR_DIARIA", preferenciasUsuario.isValor_diaria());
@@ -44,14 +44,13 @@ public class PreferenciasUsuarioDAO {
 
     public List<PreferenciasUsuario> retornaPreferencias(){
         List<PreferenciasUsuario> listaPreferencias = new ArrayList<>();
-
         try {
             Cursor cursor = db.query("PREFERENCIAS_USUARIO", colunas, null, null, null, null, null);
             if(cursor.moveToFirst()) {
                 do {
                     PreferenciasUsuario preferenciasUsuario = new PreferenciasUsuario();
-                    preferenciasUsuario.setCarro(Boolean.parseBoolean(cursor.getString(0)));
-                    preferenciasUsuario.setMoto(Boolean.parseBoolean(cursor.getString(1)));
+                    preferenciasUsuario.setMoto(Boolean.parseBoolean(cursor.getString(0)));
+                    preferenciasUsuario.setCarro(Boolean.parseBoolean(cursor.getString(1)));
                     preferenciasUsuario.setValor_meiahora(Boolean.parseBoolean(cursor.getString(2)));
                     preferenciasUsuario.setValor_umahora(Boolean.parseBoolean(cursor.getString(3)));
                     preferenciasUsuario.setValor_diaria(Boolean.parseBoolean(cursor.getString(4)));

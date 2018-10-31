@@ -28,7 +28,6 @@ public class PreferenciasFragment extends Fragment {
     private Button btLimpar;
 
     private PreferenciasUsuarioDAO preferenciasUsuarioDAO;
-    private PreferenciasUsuario preferenciasUsuario;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -36,7 +35,9 @@ public class PreferenciasFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_preferencias, container, false);
 
         preferenciasUsuarioDAO = new PreferenciasUsuarioDAO(getActivity());
-        List<PreferenciasUsuario> preferenciaRetornada = preferenciasUsuarioDAO.retornaPreferencias();
+        PreferenciasUsuario preferenciasUsuario = new PreferenciasUsuario();
+
+        preferenciasUsuarioDAO.retornaPreferencias();
 
         motoSwitch = view.findViewById(R.id.motoSwitch);
         carroSwitch = view.findViewById(R.id.carroSwitch);
@@ -89,54 +90,55 @@ public class PreferenciasFragment extends Fragment {
         });
 
         btSalvar = view.findViewById(R.id.btSalvar);
-        btSalvar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(motoSwitch.isChecked()){
-                    preferenciasUsuario.setMoto(true);
-                } else {
-                    preferenciasUsuario.setMoto(false);
-                }
-
-                if(carroSwitch.isChecked()){
-                    preferenciasUsuario.setCarro(true);
-                } else {
-                    preferenciasUsuario.setCarro(false);
-                }
-
-                if(meiaHoraSwitch.isChecked()){
-                    preferenciasUsuario.setValor_meiahora(true);
-                } else {
-                    preferenciasUsuario.setValor_meiahora(false);
-                }
-
-                if(umaHoraSwitch.isChecked()){
-                    preferenciasUsuario.setValor_umahora(true);
-                } else {
-                    preferenciasUsuario.setValor_umahora(false);
-                }
-
-                if(diariaSwitch.isChecked()){
-                    preferenciasUsuario.setValor_diaria(true);
-                } else {
-                    preferenciasUsuario.setValor_diaria(false);
-                }
-
-                if(semanalSwitch.isChecked()){
-                    preferenciasUsuario.setValor_semanal(true);
-                } else {
-                    preferenciasUsuario.setValor_semanal(false);
-                }
-
-                if(mensalSwitch.isChecked()){
-                    preferenciasUsuario.setValor_mensal(true);
-                } else {
-                    preferenciasUsuario.setValor_mensal(false);
-                }
-                preferenciasUsuarioDAO.atualizar(preferenciasUsuario);
-
-            }
-        });
+//        btSalvar.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(motoSwitch.isChecked()){
+//                    preferenciasUsuario.setMoto(true);
+//                } else {
+//                    preferenciasUsuario.setMoto(false);
+//                }
+//
+//                if(carroSwitch.isChecked()){
+//                    preferenciasUsuario.setCarro(true);
+//                } else {
+//                    preferenciasUsuario.setCarro(false);
+//                }
+//
+//                if(meiaHoraSwitch.isChecked()){
+//                    preferenciasUsuario.setValor_meiahora(true);
+//                } else {
+//                    preferenciasUsuario.setValor_meiahora(false);
+//                }
+//
+//                if(umaHoraSwitch.isChecked()){
+//                    preferenciasUsuario.setValor_umahora(true);
+//                } else {
+//                    preferenciasUsuario.setValor_umahora(false);
+//                }
+//
+//                if(diariaSwitch.isChecked()){
+//                    preferenciasUsuario.setValor_diaria(true);
+//                } else {
+//                    preferenciasUsuario.setValor_diaria(false);
+//                }
+//
+//                if(semanalSwitch.isChecked()){
+//                    preferenciasUsuario.setValor_semanal(true);
+//                } else {
+//                    preferenciasUsuario.setValor_semanal(false);
+//                }
+//
+//                if(mensalSwitch.isChecked()){
+//                    preferenciasUsuario.setValor_mensal(true);
+//                } else {
+//                    preferenciasUsuario.setValor_mensal(false);
+//                }
+//
+//                preferenciasUsuarioDAO.atualizar(preferenciasUsuario);
+//
+//            }
+//        });
         return view;
     }
 
