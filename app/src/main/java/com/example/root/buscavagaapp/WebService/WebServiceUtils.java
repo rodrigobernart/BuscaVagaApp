@@ -51,7 +51,8 @@ public class WebServiceUtils{
             ArrayList<ParametrosEmpresa> listaParametros = new ArrayList<>();
 
             JSONObject jsonObj = new JSONObject(json);
-            JSONArray array = jsonObj.getJSONArray("parametros_empresa");
+            JSONObject empresa = jsonObj.getJSONObject("empresa");
+            JSONArray array = empresa.getJSONArray("parametros_empresa");
 
             for (int i = 0; i < array.length(); i++){
                 JSONObject objArray = array.getJSONObject(i);

@@ -45,8 +45,6 @@ public class PreferenciasFragment extends Fragment {
         semanalSwitch = view.findViewById(R.id.semanalSwitch);
         mensalSwitch = view.findViewById(R.id.mensalSwitch);
 
-        PreferenciasUsuario preferenciasUsuario = new PreferenciasUsuario();
-
         preferenciasUsuarioDAO = new PreferenciasUsuarioDAO(getActivity());
 
         Globais.listaPreferencias = preferenciasUsuarioDAO.retornaPreferencias();

@@ -185,9 +185,7 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
         protected ArrayList<DadosEmpresas> doInBackground(Void... params) {
             WebServiceUtils utils = new WebServiceUtils();
 
-            ArrayList<DadosEmpresas> dados = utils.retornaInformacoes("http://35.227.77.109:8000/conection.php");
-
-//            ArrayList<ParametrosEmpresa> parametros = utils.retornaInformacoes("http://35.227.77.109:8000/parametros_empresa.php");
+            ArrayList<DadosEmpresas> dados = utils.retornaInformacoes("http://buscavagaapp.com.br:8000/conection.php");
 
             return dados;
         }
@@ -216,7 +214,6 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
 
                 Marker m = mMap.addMarker(markerOptions);
                 m.setTag(info);
-//                m.showInfoWindow();
             }
             progressao.dismiss();
         }
