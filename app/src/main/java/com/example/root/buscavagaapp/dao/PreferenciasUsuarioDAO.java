@@ -27,13 +27,13 @@ public class PreferenciasUsuarioDAO {
     public long atualizar(PreferenciasUsuario preferenciasUsuario){
         ContentValues valores = new ContentValues();
         try {
-            valores.put("MOTO", preferenciasUsuario.isMoto());
-            valores.put("CARRO", preferenciasUsuario.isCarro());
-            valores.put("VALOR_MEIAHORA", preferenciasUsuario.isValor_meiahora());
-            valores.put("VALOR_UMAHORA", preferenciasUsuario.isValor_umahora());
-            valores.put("VALOR_DIARIA", preferenciasUsuario.isValor_diaria());
-            valores.put("VALOR_SEMANAL", preferenciasUsuario.isValor_semanal());
-            valores.put("VALOR_MENSAL", preferenciasUsuario.isValor_mensal());
+            valores.put("CARRO", preferenciasUsuario.getCarro());
+            valores.put("MOTO", preferenciasUsuario.getMoto());
+            valores.put("VALOR_MEIAHORA", preferenciasUsuario.getValor_meiahora());
+            valores.put("VALOR_UMAHORA", preferenciasUsuario.getValor_umahora());
+            valores.put("VALOR_DIARIA", preferenciasUsuario.getValor_diaria());
+            valores.put("VALOR_SEMANAL", preferenciasUsuario.getValor_semanal());
+            valores.put("VALOR_MENSAL", preferenciasUsuario.getValor_mensal());
 
             return db.update("PREFERENCIAS_USUARIO", valores, null, null);
         } catch (SQLException ex){
@@ -44,18 +44,19 @@ public class PreferenciasUsuarioDAO {
 
     public List<PreferenciasUsuario> retornaPreferencias(){
         List<PreferenciasUsuario> listaPreferencias = new ArrayList<>();
+
         try {
             Cursor cursor = db.query("PREFERENCIAS_USUARIO", colunas, null, null, null, null, null);
             if(cursor.moveToFirst()) {
                 do {
                     PreferenciasUsuario preferenciasUsuario = new PreferenciasUsuario();
-                    preferenciasUsuario.setMoto(Boolean.parseBoolean(cursor.getString(0)));
-                    preferenciasUsuario.setCarro(Boolean.parseBoolean(cursor.getString(1)));
-                    preferenciasUsuario.setValor_meiahora(Boolean.parseBoolean(cursor.getString(2)));
-                    preferenciasUsuario.setValor_umahora(Boolean.parseBoolean(cursor.getString(3)));
-                    preferenciasUsuario.setValor_diaria(Boolean.parseBoolean(cursor.getString(4)));
-                    preferenciasUsuario.setValor_semanal(Boolean.parseBoolean(cursor.getString(5)));
-                    preferenciasUsuario.setValor_mensal(Boolean.parseBoolean(cursor.getString(6)));
+                    preferenciasUsuario.setCarro(cursor.getString(0));
+                    preferenciasUsuario.setMoto(cursor.getString(1));
+                    preferenciasUsuario.setValor_meiahora(cursor.getString(2));
+                    preferenciasUsuario.setValor_umahora(cursor.getString(3));
+                    preferenciasUsuario.setValor_diaria(cursor.getString(4));
+                    preferenciasUsuario.setValor_semanal(cursor.getString(5));
+                    preferenciasUsuario.setValor_mensal(cursor.getString(6));
 
                     listaPreferencias.add(preferenciasUsuario);
                 } while (cursor.moveToNext());

@@ -78,42 +78,6 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
 
     }
 
-    @Override
-    public void onLocationChanged(Location location) {
-        Log.e(TAG, "ta indo a localização, pega ai....lat: "+ location.getLatitude()+" long: "+ location.getLongitude());
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-
-    }
-
-
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissoes, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_PERMISSIONS_CODE: {
-                for (int i = 0; i < permissoes.length; i++) {
-                    if (permissoes[i].equalsIgnoreCase(Manifest.permission.ACCESS_FINE_LOCATION) && grantResults[i] == PackageManager.PERMISSION_GRANTED) {
-                        readMyCurrentCoordinates();
-                    }
-                }
-            }
-            super.onRequestPermissionsResult(requestCode, permissoes, grantResults);
-        }
-    }
-
     //Pega as coordenadas do GPS e da Internet do aparelho e vai atualizando conforme o tempo
     private void readMyCurrentCoordinates() {
         LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
@@ -157,6 +121,40 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
         }
         zoomMapToMyLocation(location);
         Log.i(TAG, "Latitude: "+latitude+" | Longitude: "+longitude);
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        Log.e(TAG, "Lat: "+ location.getLatitude()+" | Long: "+ location.getLongitude());
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissoes, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_PERMISSIONS_CODE: {
+                for (int i = 0; i < permissoes.length; i++) {
+                    if (permissoes[i].equalsIgnoreCase(Manifest.permission.ACCESS_FINE_LOCATION) && grantResults[i] == PackageManager.PERMISSION_GRANTED) {
+                        readMyCurrentCoordinates();
+                    }
+                }
+            }
+            super.onRequestPermissionsResult(requestCode, permissoes, grantResults);
+        }
     }
 
     //Alert solicitando permissão
