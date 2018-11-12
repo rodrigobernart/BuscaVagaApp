@@ -1,5 +1,7 @@
 package com.example.root.buscavagaapp.WebService;
 
+import android.util.Log;
+
 import com.example.root.buscavagaapp.modelo.DadosEmpresas;
 import com.example.root.buscavagaapp.modelo.ParametrosEmpresa;
 
@@ -25,7 +27,6 @@ public class WebServiceUtils{
 
             JSONObject jsonObj = new JSONObject(json);
             JSONArray array = jsonObj.getJSONArray("empresa");
-
             for(int i = 0; i < array.length(); i++){
 
                 JSONObject objArray = array.getJSONObject(i);
@@ -36,40 +37,31 @@ public class WebServiceUtils{
                 empresas.setTelefone_cel(objArray.getString("telefone_cel"));
                 empresas.setLatitude(objArray.getDouble("latitude"));
                 empresas.setLongitude(objArray.getDouble("longitude"));
+
+                if(objArray.has("parametros_empresa")){
+                    JSONArray ja = objArray.getJSONArray("parametros_empresa");
+                    ArrayList<ParametrosEmpresa> listaParametros = new ArrayList<>();
+                    int tamanhoArray2 = ja.length();
+                    for(int j = 0; j < tamanhoArray2; j++){
+
+                        JSONObject objeto = ja.getJSONObject(j);
+                        ParametrosEmpresa parametros = new ParametrosEmpresa();
+
+                        parametros.setId_empresa(objeto.getInt("id_empresa"));
+                        parametros.setTipo_veiculo(objeto.getString("tipo_veiculo").charAt(0));
+                        parametros.setValor_meiahora(objeto.getDouble("valor_meiahora"));
+                        parametros.setValor_umahora(objeto.getDouble("valor_umahora"));
+                        parametros.setValor_diaria(objeto.getDouble("valor_diaria"));
+                        parametros.setValor_semana(objeto.getDouble("valor_semana"));
+                        parametros.setValor_mes(objeto.getDouble("valor_mes"));
+                        listaParametros.add(parametros);
+                    }
+                }
                 listaEmpresas.add(empresas);
             }
             return listaEmpresas;
 
         } catch(JSONException ex){
-            ex.printStackTrace();
-            return null;
-        }
-    }
-
-    private ArrayList<ParametrosEmpresa> converte(String json){
-        try {
-            ArrayList<ParametrosEmpresa> listaParametros = new ArrayList<>();
-
-            JSONObject jsonObj = new JSONObject(json);
-            JSONObject empresa = jsonObj.getJSONObject("empresa");
-            JSONArray array = empresa.getJSONArray("parametros_empresa");
-
-            for (int i = 0; i < array.length(); i++){
-                JSONObject objArray = array.getJSONObject(i);
-                ParametrosEmpresa parametros = new ParametrosEmpresa();
-
-                parametros.setId_empresa(objArray.getInt("id_empresa"));
-                parametros.setTipo_veiculo(objArray.getString("tipo_veiculo").charAt(0));
-                parametros.setValor_meiahora(objArray.getDouble("valor_meiahora"));
-                parametros.setValor_umahora(objArray.getDouble("valor_umahora"));
-                parametros.setValor_diaria(objArray.getDouble("valor_diaria"));
-                parametros.setValor_semana(objArray.getDouble("valor_semana"));
-                parametros.setValor_mes(objArray.getDouble("valor_mes"));
-                listaParametros.add(parametros);
-            }
-            return listaParametros;
-
-        } catch (JSONException ex) {
             ex.printStackTrace();
             return null;
         }

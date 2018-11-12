@@ -12,6 +12,12 @@
         android:textStyle="bold"/>
 
     <TextView
+        android:id="@+id/tvTipoVeiculo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="10dp"/>
+
+    <TextView
         android:id="@+id/tvPrecoMeiaHora"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

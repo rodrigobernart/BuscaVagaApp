@@ -65,4 +65,17 @@ public class ParametrosEmpresa {
     public void setValor_mes(Double valor_mes) {
         this.valor_mes = valor_mes;
     }
+
+    @Override
+    public String toString() {
+        return "ParametrosEmpresa{" +
+                "id_empresa=" + id_empresa +
+                ", tipo_veiculo=" + tipo_veiculo +
+                ", valor_meiahora=" + valor_meiahora +
+                ", valor_umahora=" + valor_umahora +
+                ", valor_diaria=" + valor_diaria +
+                ", valor_semana=" + valor_semana +
+                ", valor_mes=" + valor_mes +
+                '}';
+    }
 }

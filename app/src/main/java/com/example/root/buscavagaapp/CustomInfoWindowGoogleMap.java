@@ -31,6 +31,7 @@ public class CustomInfoWindowGoogleMap implements GoogleMap.InfoWindowAdapter {
         TextView tvPrecoDiaria = (TextView)v.findViewById(R.id.tvPrecoDiaria);
         TextView tvPrecoSemanal = (TextView)v.findViewById(R.id.tvPrecoSemanal);
         TextView tvPrecoMensal = (TextView)v.findViewById(R.id.tvPrecoMensal);
+        TextView tvTipoVeiculo = (TextView)v.findViewById(R.id.tvTipoVeiculo);
 
         InfoWindowData infoWindowData = (InfoWindowData) marker.getTag();
 
@@ -40,6 +41,7 @@ public class CustomInfoWindowGoogleMap implements GoogleMap.InfoWindowAdapter {
         tvPrecoDiaria.setText(infoWindowData.getPrecoDiaria());
         tvPrecoSemanal.setText(infoWindowData.getPrecoSemanal());
         tvPrecoMensal.setText(infoWindowData.getPrecoMensal());
+        tvTipoVeiculo.setText(infoWindowData.getTipo_veiculo());
 
         return v;
     }

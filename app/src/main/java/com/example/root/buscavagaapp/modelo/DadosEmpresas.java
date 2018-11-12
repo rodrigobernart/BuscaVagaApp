@@ -47,4 +47,15 @@ public class DadosEmpresas {
     public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
+
+    @Override
+    public String toString() {
+        return "DadosEmpresas{" +
+                "nome_empresa='" + nome_empresa + '\'' +
+                ", telefone_fixo='" + telefone_fixo + '\'' +
+                ", telefone_cel='" + telefone_cel + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                '}';
+    }
 }
