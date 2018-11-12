@@ -1,9 +1,6 @@
 package com.example.root.buscavagaapp.WebService;
 
-import android.util.Log;
-
 import com.example.root.buscavagaapp.modelo.DadosEmpresas;
-import com.example.root.buscavagaapp.modelo.ParametrosEmpresa;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,6 +29,7 @@ public class WebServiceUtils{
                 JSONObject objArray = array.getJSONObject(i);
                 DadosEmpresas empresas = new DadosEmpresas();
 
+                empresas.setId_empresa(objArray.getInt("id_empresa"));
                 empresas.setNome_empresa(objArray.getString("nome_empresa"));
                 empresas.setTelefone_fixo(objArray.getString("telefone_fixo"));
                 empresas.setTelefone_cel(objArray.getString("telefone_cel"));
@@ -40,21 +38,25 @@ public class WebServiceUtils{
 
                 if(objArray.has("parametros_empresa")){
                     JSONArray ja = objArray.getJSONArray("parametros_empresa");
-                    ArrayList<ParametrosEmpresa> listaParametros = new ArrayList<>();
                     int tamanhoArray2 = ja.length();
                     for(int j = 0; j < tamanhoArray2; j++){
-
                         JSONObject objeto = ja.getJSONObject(j);
-                        ParametrosEmpresa parametros = new ParametrosEmpresa();
-
-                        parametros.setId_empresa(objeto.getInt("id_empresa"));
-                        parametros.setTipo_veiculo(objeto.getString("tipo_veiculo").charAt(0));
-                        parametros.setValor_meiahora(objeto.getDouble("valor_meiahora"));
-                        parametros.setValor_umahora(objeto.getDouble("valor_umahora"));
-                        parametros.setValor_diaria(objeto.getDouble("valor_diaria"));
-                        parametros.setValor_semana(objeto.getDouble("valor_semana"));
-                        parametros.setValor_mes(objeto.getDouble("valor_mes"));
-                        listaParametros.add(parametros);
+                        if(objeto.getString("tipo_veiculo").charAt(0) == 'C') {
+                            empresas.setCarro(true);
+                            empresas.setValor_meiahora_c(objeto.getDouble("valor_meiahora"));
+                            empresas.setValor_umahora_c(objeto.getDouble("valor_umahora"));
+                            empresas.setValor_diaria_c(objeto.getDouble("valor_diaria"));
+                            empresas.setValor_semana_c(objeto.getDouble("valor_semana"));
+                            empresas.setValor_mes_c(objeto.getDouble("valor_mes"));
+                        }
+                        else if(objeto.getString("tipo_veiculo").charAt(0) == 'M'){
+                            empresas.setMoto(true);
+                            empresas.setValor_meiahora_m(objeto.getDouble("valor_meiahora"));
+                            empresas.setValor_umahora_m(objeto.getDouble("valor_umahora"));
+                            empresas.setValor_diaria_m(objeto.getDouble("valor_diaria"));
+                            empresas.setValor_semana_m(objeto.getDouble("valor_semana"));
+                            empresas.setValor_mes_m(objeto.getDouble("valor_mes"));
+                        }
                     }
                 }
                 listaEmpresas.add(empresas);

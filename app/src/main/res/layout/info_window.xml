@@ -11,11 +11,10 @@
         android:textSize="15dp"
         android:textStyle="bold"/>
 
-    <TextView
-        android:id="@+id/tvTipoVeiculo"
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="10dp"/>
+        android:id="@+id/ivCarro"/>
 
     <TextView
         android:id="@+id/tvPrecoMeiaHora"
@@ -47,4 +46,14 @@
         android:layout_height="wrap_content"
         android:textSize="10dp"/>
 
+    <ImageView
+        android:id="@+id/ivMoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/tvPrecosMoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="10dp"/>
 </LinearLayout>

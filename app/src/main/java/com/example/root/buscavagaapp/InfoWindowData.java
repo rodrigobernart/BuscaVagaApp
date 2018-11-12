@@ -8,7 +8,7 @@ public class InfoWindowData {
     private String precoDiaria;
     private String precoSemanal;
     private String precoMensal;
-    private String tipo_veiculo;
+    private String precosMoto;
 
     public String getNome() {
         return nome;
@@ -58,11 +58,11 @@ public class InfoWindowData {
         this.precoMensal = precoMensal;
     }
 
-    public String getTipo_veiculo() {
-        return tipo_veiculo;
+    public String getPrecosMoto() {
+        return precosMoto;
     }
 
-    public void setTipo_veiculo(String tipo_veiculo) {
-        this.tipo_veiculo = tipo_veiculo;
+    public void setPrecosMoto(String precosMoto) {
+        this.precosMoto = precosMoto;
     }
 }

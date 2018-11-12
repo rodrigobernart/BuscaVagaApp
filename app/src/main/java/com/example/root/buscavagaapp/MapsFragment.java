@@ -202,12 +202,22 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
 
                 InfoWindowData info = new InfoWindowData();
                 info.setNome(dadosEmpresa.getNome_empresa());
-                //alterar para pegar da empresa quando tiver ajustada a tabela
-                info.setPrecoMeiaHora("Preço 1/2 Hora: " + "R$3,00");
-                info.setPrecoUmaHora("Preço 1 Hora: " + "R$5,00");
-                info.setPrecoDiaria("Preço Diária: " + "R$20,00");
-                info.setPrecoSemanal("Preço Semanal: " + "R$60,00");
-                info.setPrecoMensal("Preço Mensal: " + "R$150,00");
+
+                if(dadosEmpresa.isCarro()) {
+                    info.setPrecoMeiaHora("Valor Meia Hora: R$" + dadosEmpresa.getValor_meiahora_c());
+                    info.setPrecoUmaHora("Valor Uma Hora: R$" + dadosEmpresa.getValor_umahora_c());
+                    info.setPrecoDiaria("Valor Diária: R$" + dadosEmpresa.getValor_diaria_c());
+                    info.setPrecoSemanal("Valor Semanal: R$" + dadosEmpresa.getValor_semana_c());
+                    info.setPrecoMensal("Valor Mensal: R$" + dadosEmpresa.getValor_mes_c());
+                } else if (dadosEmpresa.isMoto()){
+                    info.setPrecosMoto("Valor Meia Hora: R$ " + dadosEmpresa.getValor_meiahora_m() +
+                                        "Valor Uma Hora: R$ " + dadosEmpresa.getValor_umahora_m() +
+                                        "Valor Diária:   R$ " + dadosEmpresa.getValor_diaria_m() +
+                                        "Valor Semanal:  R$ " + dadosEmpresa.getValor_semana_m() +
+                                        "Valor Mensal:   R$ " + dadosEmpresa.getValor_mes_m());
+                } else {
+                    //tratar para informar que não há preços cadastrados pela empresa...
+                }
 
                 CustomInfoWindowGoogleMap customInfoWindow = new CustomInfoWindowGoogleMap(getActivity());
                 mMap.setInfoWindowAdapter(customInfoWindow);
