@@ -26,24 +26,18 @@ public class CustomInfoWindowGoogleMap implements GoogleMap.InfoWindowAdapter {
         View v = context.getLayoutInflater().inflate(R.layout.info_window, null);
 
         TextView tvEstacionamento = v.findViewById(R.id.tvEstacionamento);
-        TextView tvPrecoMeiaHora = v.findViewById(R.id.tvPrecoMeiaHora);
-        TextView tvPrecoUmaHora = v.findViewById(R.id.tvPrecoUmaHora);
-        TextView tvPrecoDiaria = v.findViewById(R.id.tvPrecoDiaria);
-        TextView tvPrecoSemanal = v.findViewById(R.id.tvPrecoSemanal);
-        TextView tvPrecoMensal = v.findViewById(R.id.tvPrecoMensal);
         ImageView ivCarro = v.findViewById(R.id.ivCarro);
+        TextView tvPrecosCarro = v.findViewById(R.id.tvPrecosCarro);
         ImageView ivMoto = v.findViewById(R.id.ivMoto);
         TextView tvPrecosMoto = v.findViewById(R.id.tvPrecosMoto);
 
-        InfoWindowData infoWindowData = (InfoWindowData) marker.getTag();
-        ivCarro.setImageDrawable(v.getResources().getDrawable(R.drawable.ic_car));
-        tvEstacionamento.setText(infoWindowData.getNome());
-        tvPrecoMeiaHora.setText(infoWindowData.getPrecoMeiaHora());
-        tvPrecoUmaHora.setText(infoWindowData.getPrecoUmaHora());
-        tvPrecoDiaria.setText(infoWindowData.getPrecoDiaria());
-        tvPrecoSemanal.setText(infoWindowData.getPrecoSemanal());
-        tvPrecoMensal.setText(infoWindowData.getPrecoMensal());
 
+        InfoWindowData infoWindowData = (InfoWindowData) marker.getTag();
+        tvEstacionamento.setText(infoWindowData.getNome());
+        //carro
+        ivCarro.setImageDrawable(v.getResources().getDrawable(R.drawable.ic_car));
+        tvPrecosCarro.setText(infoWindowData.getPrecosCarro());
+        //moto
         ivMoto.setImageDrawable(v.getResources().getDrawable(R.drawable.ic_moto));
         tvPrecosMoto.setText(infoWindowData.getPrecosMoto());
 

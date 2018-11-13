@@ -25,6 +25,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import me.drakeet.materialdialog.MaterialDialog;
@@ -197,6 +198,9 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
             for(final DadosEmpresas dadosEmpresa : dadosEmpresas){
                 LatLng position = new LatLng(dadosEmpresa.getLatitude(), dadosEmpresa.getLongitude());
 
+                //formata preços mostrando sem os zeros após a vírgula
+                DecimalFormat decimal = new DecimalFormat(",##0.00");
+
                 MarkerOptions markerOptions = new MarkerOptions();
                 markerOptions.position(position);
 
@@ -204,19 +208,22 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
                 info.setNome(dadosEmpresa.getNome_empresa());
 
                 if(dadosEmpresa.isCarro()) {
-                    info.setPrecoMeiaHora("Valor Meia Hora: R$" + dadosEmpresa.getValor_meiahora_c());
-                    info.setPrecoUmaHora("Valor Uma Hora: R$" + dadosEmpresa.getValor_umahora_c());
-                    info.setPrecoDiaria("Valor Diária: R$" + dadosEmpresa.getValor_diaria_c());
-                    info.setPrecoSemanal("Valor Semanal: R$" + dadosEmpresa.getValor_semana_c());
-                    info.setPrecoMensal("Valor Mensal: R$" + dadosEmpresa.getValor_mes_c());
-                } else if (dadosEmpresa.isMoto()){
-                    info.setPrecosMoto("Valor Meia Hora: R$ " + dadosEmpresa.getValor_meiahora_m() +
-                                        "Valor Uma Hora: R$ " + dadosEmpresa.getValor_umahora_m() +
-                                        "Valor Diária:   R$ " + dadosEmpresa.getValor_diaria_m() +
-                                        "Valor Semanal:  R$ " + dadosEmpresa.getValor_semana_m() +
-                                        "Valor Mensal:   R$ " + dadosEmpresa.getValor_mes_m());
+                    info.setPrecosCarro("Valor Meia Hora: R$ " + decimal.format(dadosEmpresa.getValor_meiahora_c()) +
+                            "\nValor Uma Hora: R$ " + decimal.format(dadosEmpresa.getValor_umahora_c()) +
+                            "\nValor Diária:   R$ " + decimal.format(dadosEmpresa.getValor_diaria_c()) +
+                            "\nValor Semanal:  R$ " + decimal.format(dadosEmpresa.getValor_semana_c()) +
+                            "\nValor Mensal:   R$ " + decimal.format(dadosEmpresa.getValor_mes_c()));
                 } else {
-                    //tratar para informar que não há preços cadastrados pela empresa...
+                    info.setPrecosCarro("Não foram informados valores\n para esse estacionamento ainda :(");
+                }
+                if (dadosEmpresa.isMoto()){
+                    info.setPrecosMoto("Valor Meia Hora: R$ " + decimal.format(dadosEmpresa.getValor_meiahora_m()) +
+                                        "\nValor Uma Hora: R$ " + decimal.format(dadosEmpresa.getValor_umahora_m()) +
+                                        "\nValor Diária:   R$ " + decimal.format(dadosEmpresa.getValor_diaria_m()) +
+                                        "\nValor Semanal:  R$ " + decimal.format(dadosEmpresa.getValor_semana_m()) +
+                                        "\nValor Mensal:   R$ " + decimal.format(dadosEmpresa.getValor_mes_m()));
+                } else {
+                    info.setPrecosMoto("Não foram informados valores\n para esse estacionamento ainda :(");
                 }
 
                 CustomInfoWindowGoogleMap customInfoWindow = new CustomInfoWindowGoogleMap(getActivity());

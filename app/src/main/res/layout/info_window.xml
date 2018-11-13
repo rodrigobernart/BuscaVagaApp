@@ -17,31 +17,7 @@
         android:id="@+id/ivCarro"/>
 
     <TextView
-        android:id="@+id/tvPrecoMeiaHora"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="10dp"/>
-
-    <TextView
-        android:id="@+id/tvPrecoUmaHora"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="10dp"/>
-
-    <TextView
-        android:id="@+id/tvPrecoDiaria"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="10dp"/>
-
-    <TextView
-        android:id="@+id/tvPrecoSemanal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="10dp"/>
-
-    <TextView
-        android:id="@+id/tvPrecoMensal"
+        android:id="@+id/tvPrecosCarro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="10dp"/>
