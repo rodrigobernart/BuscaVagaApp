@@ -26,8 +26,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import me.drakeet.materialdialog.MaterialDialog;
@@ -35,10 +33,6 @@ import me.drakeet.materialdialog.MaterialDialog;
 public class MapsFragment extends SupportMapFragment implements OnMapReadyCallback, LocationListener {
 
     private GoogleMap mMap;
-    private LocationManager lm;
-    private Location location;
-    private double longitude = 0.0;
-    private double latitude = 0.0;
     private MaterialDialog mMaterialDialog;
     private ProgressDialog progressao;
 
@@ -306,18 +300,6 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
                     precosMoto = "Você optou por não exibir valores para carros.\nCaso desejar habilite essa opção na tela de preferências";
                     info.setPrecosMoto(precosMoto);
                 }
-
-//                //exibe informações conforme as preferências do usuário e valida se o estacionamento tem os valores cadastrados
-//                if(dadosEmpresa.isCarro()) {
-//                    info.setPrecosCarro(precosCarro);
-//                } else {
-//                    info.setPrecosCarro("Não foram informados valores\npara esse estacionamento ainda :(");
-//                }
-//                if (dadosEmpresa.isMoto()){
-//                    info.setPrecosMoto(precosMoto);
-//                } else {
-//                    info.setPrecosMoto("Não foram informados valores\npara esse estacionamento ainda :(");
-//                }
 
                 CustomInfoWindowGoogleMap customInfoWindow = new CustomInfoWindowGoogleMap(getActivity());
                 mMap.setInfoWindowAdapter(customInfoWindow);
