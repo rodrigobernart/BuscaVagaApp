@@ -4,6 +4,7 @@ public class DadosEmpresas {
 
     private int id_empresa;
     private String nome_empresa;
+    private String endereco;
     private String telefone_fixo;
     private String telefone_cel;
     private Double latitude;
@@ -36,6 +37,14 @@ public class DadosEmpresas {
 
     public void setNome_empresa(String nome_empresa) {
         this.nome_empresa = nome_empresa;
+    }
+
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
     }
 
     public String getTelefone_fixo() {

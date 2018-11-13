@@ -205,6 +205,9 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
 
                 InfoWindowData info = new InfoWindowData();
                 info.setNome(dadosEmpresa.getNome_empresa());
+                info.setTelefones("Fixo: " + dadosEmpresa.getTelefone_fixo() + "\nCelular: " + dadosEmpresa.getTelefone_cel());
+                info.setEndereco("Endereço: " + dadosEmpresa.getEndereco());
+
 
                 //valida conforme as preferencias do usuário
                 if(preferenciasDao.retornaPreferencias().get(0).getCarro().equals("SIM")){
