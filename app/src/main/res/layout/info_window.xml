@@ -20,7 +20,7 @@
         android:id="@+id/tvPrecosCarro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="10dp"/>
+        android:textSize="12dp"/>
 
     <ImageView
         android:id="@+id/ivMoto"
@@ -31,5 +31,5 @@
         android:id="@+id/tvPrecosMoto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="10dp"/>
+        android:textSize="12dp"/>
 </LinearLayout>

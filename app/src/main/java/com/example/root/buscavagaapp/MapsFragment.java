@@ -15,6 +15,7 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 
+import com.example.root.buscavagaapp.dao.PreferenciasUsuarioDAO;
 import com.example.root.buscavagaapp.modelo.DadosEmpresas;
 import com.example.root.buscavagaapp.WebService.WebServiceUtils;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -26,6 +27,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import me.drakeet.materialdialog.MaterialDialog;
@@ -198,33 +200,124 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
             for(final DadosEmpresas dadosEmpresa : dadosEmpresas){
                 LatLng position = new LatLng(dadosEmpresa.getLatitude(), dadosEmpresa.getLongitude());
 
-                //formata preços mostrando sem os zeros após a vírgula
-                DecimalFormat decimal = new DecimalFormat(",##0.00");
-
                 MarkerOptions markerOptions = new MarkerOptions();
                 markerOptions.position(position);
+
+                PreferenciasUsuarioDAO preferenciasDao = new PreferenciasUsuarioDAO(getActivity());
+                preferenciasDao.retornaPreferencias();
+
+                String precosCarro = "";
+                String precosMoto = "";
 
                 InfoWindowData info = new InfoWindowData();
                 info.setNome(dadosEmpresa.getNome_empresa());
 
-                if(dadosEmpresa.isCarro()) {
-                    info.setPrecosCarro("Valor Meia Hora: R$ " + decimal.format(dadosEmpresa.getValor_meiahora_c()) +
-                            "\nValor Uma Hora: R$ " + decimal.format(dadosEmpresa.getValor_umahora_c()) +
-                            "\nValor Diária:   R$ " + decimal.format(dadosEmpresa.getValor_diaria_c()) +
-                            "\nValor Semanal:  R$ " + decimal.format(dadosEmpresa.getValor_semana_c()) +
-                            "\nValor Mensal:   R$ " + decimal.format(dadosEmpresa.getValor_mes_c()));
-                } else {
-                    info.setPrecosCarro("Não foram informados valores\n para esse estacionamento ainda :(");
+                //valida conforme as preferencias do usuário
+                if(preferenciasDao.retornaPreferencias().get(0).getCarro().equals("SIM")){
+                    if(preferenciasDao.retornaPreferencias().get(0).getValor_meiahora().equals("SIM")){
+                        if(dadosEmpresa.getValor_meiahora_c() != null && dadosEmpresa.getValor_meiahora_c() > 0) {
+                            precosCarro += "Valor Meia Hora: R$ " + String.format("%.2f", dadosEmpresa.getValor_meiahora_c()) + "\n";
+                        } else {
+                            precosCarro += "Valor Meia Hora: não informado pela empresa!";
+                        }
+                    }
+                    if(preferenciasDao.retornaPreferencias().get(0).getValor_umahora().equals("SIM")){
+                        if(dadosEmpresa.getValor_umahora_c() != null && dadosEmpresa.getValor_umahora_c() > 0) {
+                            precosCarro += "Valor Uma Hora:  R$ " + String.format("%.2f", dadosEmpresa.getValor_umahora_c()) + "\n";
+                        } else {
+                            precosCarro += "Valor Uma Hora: não informado pela empresa!";
+                        }
+                    }
+                    if(preferenciasDao.retornaPreferencias().get(0).getValor_diaria().equals("SIM")){
+                        if(dadosEmpresa.getValor_diaria_c() != null && dadosEmpresa.getValor_diaria_c() > 0) {
+                            precosCarro += "Valor Diária:    R$ " + String.format("%.2f", dadosEmpresa.getValor_diaria_c()) + "\n";
+                        } else {
+                            precosCarro += "Valor Diária: não informado pela empresa!";
+                        }
+                    }
+                    if(preferenciasDao.retornaPreferencias().get(0).getValor_semanal().equals("SIM")){
+                        if(dadosEmpresa.getValor_semana_c() != null && dadosEmpresa.getValor_semana_c() > 0) {
+                            precosCarro += "Valor Semanal:   R$ " + String.format("%.2f", dadosEmpresa.getValor_semana_c()) + "\n";
+                        } else {
+                            precosCarro += "Valor Semanal: não informado pela empresa!";
+                        }
+                    }
+                    if(preferenciasDao.retornaPreferencias().get(0).getValor_mensal().equals("SIM")){
+                        if(dadosEmpresa.getValor_mes_c() != null && dadosEmpresa.getValor_mes_c() > 0) {
+                            precosCarro += "Valor Mensal:    R$ " + String.format("%.2f", dadosEmpresa.getValor_mes_c()) + "\n";
+                        } else {
+                            precosCarro += "Valor Mensal: não informado pela empresa!";
+                        }
+                    }
+
+                    if(dadosEmpresa.isCarro()) {
+                        info.setPrecosCarro(precosCarro);
+                    } else {
+                        info.setPrecosCarro("Não foram informados valores\npara esse estacionamento ainda :(");
+                    }
+                } else if (preferenciasDao.retornaPreferencias().get(0).getCarro().equals("NÃO")){
+                    precosCarro = "Você optou por não exibir valores para carros.\nCaso desejar habilite essa opção na tela de preferências";
+                    info.setPrecosCarro(precosCarro);
                 }
-                if (dadosEmpresa.isMoto()){
-                    info.setPrecosMoto("Valor Meia Hora: R$ " + decimal.format(dadosEmpresa.getValor_meiahora_m()) +
-                                        "\nValor Uma Hora: R$ " + decimal.format(dadosEmpresa.getValor_umahora_m()) +
-                                        "\nValor Diária:   R$ " + decimal.format(dadosEmpresa.getValor_diaria_m()) +
-                                        "\nValor Semanal:  R$ " + decimal.format(dadosEmpresa.getValor_semana_m()) +
-                                        "\nValor Mensal:   R$ " + decimal.format(dadosEmpresa.getValor_mes_m()));
-                } else {
-                    info.setPrecosMoto("Não foram informados valores\n para esse estacionamento ainda :(");
+
+                if(preferenciasDao.retornaPreferencias().get(0).getMoto().equals("SIM")){
+                    if(preferenciasDao.retornaPreferencias().get(0).getValor_meiahora().equals("SIM")){
+                        if(dadosEmpresa.getValor_meiahora_m() != null && dadosEmpresa.getValor_meiahora_m() > 0) {
+                            precosMoto += "Valor Meia Hora: R$ " + String.format("%.2f", dadosEmpresa.getValor_meiahora_m()) + "\n";
+                        } else {
+                            precosMoto += "Valor Meia Hora: não informado pela empresa!";
+                        }
+                    }
+                    if(preferenciasDao.retornaPreferencias().get(0).getValor_umahora().equals("SIM")){
+                        if(dadosEmpresa.getValor_umahora_m() != null && dadosEmpresa.getValor_umahora_m() > 0) {
+                            precosMoto += "Valor Uma Hora:  R$ " + String.format("%.2f", dadosEmpresa.getValor_umahora_m()) + "\n";
+                        } else {
+                            precosMoto += "Valor Uma Hora: não informado pela empresa!";
+                        }
+                    }
+                    if(preferenciasDao.retornaPreferencias().get(0).getValor_diaria().equals("SIM")){
+                        if(dadosEmpresa.getValor_diaria_m() != null && dadosEmpresa.getValor_diaria_m() > 0) {
+                            precosMoto += "Valor Diária:    R$ " + String.format("%.2f", dadosEmpresa.getValor_diaria_m()) + "\n";
+                        } else {
+                            precosMoto += "Valor Diária: não informado pela empresa!";
+                        }
+                    }
+                    if(preferenciasDao.retornaPreferencias().get(0).getValor_semanal().equals("SIM")){
+                        if(dadosEmpresa.getValor_semana_m() != null && dadosEmpresa.getValor_semana_m() > 0) {
+                            precosMoto += "Valor Semanal:   R$ " + String.format("%.2f", dadosEmpresa.getValor_semana_m()) + "\n";
+                        } else {
+                            precosMoto += "Valor Semanal: não informado pela empresa!";
+                        }
+                    }
+                    if(preferenciasDao.retornaPreferencias().get(0).getValor_mensal().equals("SIM")){
+                        if(dadosEmpresa.getValor_mes_m() != null && dadosEmpresa.getValor_mes_m() > 0) {
+                            precosMoto += "Valor Mensal:    R$ " + String.format("%.2f", dadosEmpresa.getValor_mes_m());
+                        } else {
+                            precosMoto += "Valor Mensal: não informado pela empresa!";
+                        }
+                    }
+
+                    if(dadosEmpresa.isMoto()){
+                        info.setPrecosMoto(precosMoto);
+                    } else {
+                        info.setPrecosMoto("Não foram informados valores\npara esse estacionamento ainda :(");
+                    }
+                } else if (preferenciasDao.retornaPreferencias().get(0).getMoto().equals("NÃO")){
+                    precosMoto = "Você optou por não exibir valores para carros.\nCaso desejar habilite essa opção na tela de preferências";
+                    info.setPrecosMoto(precosMoto);
                 }
+
+//                //exibe informações conforme as preferências do usuário e valida se o estacionamento tem os valores cadastrados
+//                if(dadosEmpresa.isCarro()) {
+//                    info.setPrecosCarro(precosCarro);
+//                } else {
+//                    info.setPrecosCarro("Não foram informados valores\npara esse estacionamento ainda :(");
+//                }
+//                if (dadosEmpresa.isMoto()){
+//                    info.setPrecosMoto(precosMoto);
+//                } else {
+//                    info.setPrecosMoto("Não foram informados valores\npara esse estacionamento ainda :(");
+//                }
 
                 CustomInfoWindowGoogleMap customInfoWindow = new CustomInfoWindowGoogleMap(getActivity());
                 mMap.setInfoWindowAdapter(customInfoWindow);
