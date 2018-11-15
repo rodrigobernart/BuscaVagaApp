@@ -4,6 +4,8 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -13,7 +15,12 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.root.buscavagaapp.dao.PreferenciasUsuarioDAO;
 import com.example.root.buscavagaapp.modelo.DadosEmpresas;
@@ -26,9 +33,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 import me.drakeet.materialdialog.MaterialDialog;
 
@@ -45,11 +54,63 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
     public static final String TAG = "LOG";
     public static final int REQUEST_PERMISSIONS_CODE = 128;
 
+    private EditText mSearchText;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mSearchText = (EditText)getActivity().findViewById(R.id.input_search);
+
         getMapAsync(this);
+
+        init();
+    }
+
+    private void init(){
+        Log.d(TAG, "init: initializing");
+
+        mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if(actionId == EditorInfo.IME_ACTION_SEARCH
+                        || actionId == EditorInfo.IME_ACTION_DONE
+                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER){
+
+                    //execute our method for searching
+                    geoLocate();
+                }
+
+                return false;
+            }
+        });
+    }
+
+    private void geoLocate(){
+        Log.d(TAG, "geoLocate: geolocating");
+
+        String searchString = mSearchText.getText().toString();
+
+        Geocoder geocoder = new Geocoder(getActivity());
+        List<Address> list = new ArrayList<>();
+        try{
+            list = geocoder.getFromLocationName(searchString, 1);
+        }catch (IOException e){
+            Log.e(TAG, "geoLocate: IOException: " + e.getMessage() );
+        }
+
+        if(list.size() > 0){
+            Address address = list.get(0);
+
+            Log.d(TAG, "geoLocate: found a location: " + address.toString());
+            LatLng buscaLoc = new LatLng(address.getLatitude(), address.getLongitude());
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(buscaLoc, 16));
+            //Toast.makeText(this, address.toString(), Toast.LENGTH_SHORT).show();
+
+        } else {
+            Toast.makeText(getActivity(), "Endereço não encontrado! Tente como no exemplo(Endereço, Cidade, UF): Avenida Paulista 1000, São paulo, SP", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
