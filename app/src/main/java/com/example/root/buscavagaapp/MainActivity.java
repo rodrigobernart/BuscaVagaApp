@@ -47,6 +47,12 @@ public class MainActivity extends AppCompatActivity
         transaction.commitAllowingStateLoss();
     }
 
+    private void showFragment2(Fragment fragment, String name){
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.add(R.id.container, fragment, name);
+        transaction.commit();
+    }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -96,6 +102,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+
         BuscaFragment busca = new BuscaFragment();
         switch(id){
             case R.id.nav_mapa:

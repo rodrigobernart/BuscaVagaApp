@@ -31,6 +31,7 @@ public class WebServiceUtils{
 
                 empresas.setId_empresa(objArray.getInt("id_empresa"));
                 empresas.setNome_empresa(objArray.getString("nome_empresa"));
+                empresas.setEndereco(objArray.getString("endereco"));
                 empresas.setTelefone_fixo(objArray.getString("telefone_fixo"));
                 empresas.setTelefone_cel(objArray.getString("telefone_cel"));
                 empresas.setLatitude(objArray.getDouble("latitude"));

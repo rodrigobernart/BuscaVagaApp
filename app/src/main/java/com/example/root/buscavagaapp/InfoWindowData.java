@@ -3,11 +3,8 @@ package com.example.root.buscavagaapp;
 public class InfoWindowData {
 
     private String nome;
-    private String precoMeiaHora;
-    private String precoUmaHora;
-    private String precoDiaria;
-    private String precoSemanal;
-    private String precoMensal;
+    private String endereco;
+    private String telefones;
     private String precosCarro;
     private String precosMoto;
 
@@ -19,44 +16,20 @@ public class InfoWindowData {
         this.nome = nome;
     }
 
-    public String getPrecoMeiaHora() {
-        return precoMeiaHora;
+    public String getEndereco() {
+        return endereco;
     }
 
-    public void setPrecoMeiaHora(String precoMeiaHora) {
-        this.precoMeiaHora = precoMeiaHora;
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
     }
 
-    public String getPrecoUmaHora() {
-        return precoUmaHora;
+    public String getTelefones() {
+        return telefones;
     }
 
-    public void setPrecoUmaHora(String precoUmaHora) {
-        this.precoUmaHora = precoUmaHora;
-    }
-
-    public String getPrecoDiaria() {
-        return precoDiaria;
-    }
-
-    public void setPrecoDiaria(String precoDiaria) {
-        this.precoDiaria = precoDiaria;
-    }
-
-    public String getPrecoSemanal() {
-        return precoSemanal;
-    }
-
-    public void setPrecoSemanal(String precoSemanal) {
-        this.precoSemanal = precoSemanal;
-    }
-
-    public String getPrecoMensal() {
-        return precoMensal;
-    }
-
-    public void setPrecoMensal(String precoMensal) {
-        this.precoMensal = precoMensal;
+    public void setTelefones(String telefones) {
+        this.telefones = telefones;
     }
 
     public String getPrecosCarro() {
