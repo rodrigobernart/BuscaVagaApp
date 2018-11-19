@@ -32,7 +32,7 @@ import me.drakeet.materialdialog.MaterialDialog;
 
 public class MapsFragment extends SupportMapFragment implements OnMapReadyCallback, LocationListener {
 
-    private GoogleMap mMap;
+    public static GoogleMap mMap;
     private MaterialDialog mMaterialDialog;
     private ProgressDialog progressao;
 

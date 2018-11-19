@@ -40,9 +40,16 @@ public class MainActivity extends AppCompatActivity
 
         FragmentTransaction transaction = fragmentManager.beginTransaction();
 
-        transaction.add(R.id.container, new MapsFragment(), "MapsFragment");
+        transaction.replace(R.id.container, new MapsFragment(), "MapsFragment");
+        transaction.add(R.id.container, new BuscaFragment(), "Busca");
 
         transaction.commitAllowingStateLoss();
+    }
+
+    private void showFragment2(Fragment fragment, String name){
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.add(R.id.container, fragment, name);
+        transaction.commit();
     }
 
     @Override
@@ -89,9 +96,11 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        BuscaFragment busca = new BuscaFragment();
         switch(id){
             case R.id.nav_mapa:
                 showFragment(new MapsFragment(), "MapsFragment");
+                showFragment2(new BuscaFragment(), "Busca");
                 break;
             case R.id.nav_preferencias:
                 showFragment(new PreferenciasFragment(), "PreferenciasFragment");
