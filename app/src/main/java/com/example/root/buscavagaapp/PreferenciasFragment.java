@@ -1,22 +1,22 @@
 package com.example.root.buscavagaapp;
 
-import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.support.v4.app.FragmentTransaction;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.root.buscavagaapp.dao.PreferenciasUsuarioDAO;
 import com.example.root.buscavagaapp.modelo.PreferenciasUsuario;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class PreferenciasFragment extends Fragment {
 
@@ -33,7 +33,7 @@ public class PreferenciasFragment extends Fragment {
     private PreferenciasUsuarioDAO preferenciasUsuarioDAO;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_preferencias, container, false);
 
@@ -124,38 +124,68 @@ public class PreferenciasFragment extends Fragment {
                     p.setMoto("NÃO");
                 }
 
-                if(meiaHoraSwitch.isChecked()){
-                    p.setValor_meiahora("SIM");
-                } else {
-                    p.setValor_meiahora("NÃO");
-                }
+                if(!carroSwitch.isChecked() && !motoSwitch.isChecked()){
+                    LayoutInflater inflater1 = getLayoutInflater();
 
-                if(umaHoraSwitch.isChecked()){
-                    p.setValor_umahora("SIM");
-                } else {
-                    p.setValor_umahora("NÃO");
-                }
+                    View layout = inflater1.inflate(R.layout.custom_toast, container, false);
 
-                if(diariaSwitch.isChecked()){
-                    p.setValor_diaria("SIM");
-                } else {
-                    p.setValor_diaria("NÃO");
-                }
+                    TextView texto = layout.findViewById(R.id.tvMensagem);
+                    texto.setText("Você deve selecionar ao menos uma opção de veículos!");
 
-                if(semanalSwitch.isChecked()){
-                    p.setValor_semanal("SIM");
+                    Toast toast = new Toast(getActivity().getApplicationContext());
+                    toast.setDuration(Toast.LENGTH_LONG);
+                    toast.setView(layout);
+                    toast.show();
                 } else {
-                    p.setValor_semanal("NÃO");
-                }
+                    if (meiaHoraSwitch.isChecked()) {
+                        p.setValor_meiahora("SIM");
+                    } else {
+                        p.setValor_meiahora("NÃO");
+                    }
 
-                if(mensalSwitch.isChecked()){
-                    p.setValor_mensal("SIM");
-                } else {
-                    p.setValor_mensal("NÃO");
-                }
+                    if (umaHoraSwitch.isChecked()) {
+                        p.setValor_umahora("SIM");
+                    } else {
+                        p.setValor_umahora("NÃO");
+                    }
 
-                preferenciasUsuarioDAO.atualizar(p);
-                Toast.makeText(getActivity(),  "Preferências alteradas!!", Toast.LENGTH_LONG).show();
+                    if (diariaSwitch.isChecked()) {
+                        p.setValor_diaria("SIM");
+                    } else {
+                        p.setValor_diaria("NÃO");
+                    }
+
+                    if (semanalSwitch.isChecked()) {
+                        p.setValor_semanal("SIM");
+                    } else {
+                        p.setValor_semanal("NÃO");
+                    }
+
+                    if (mensalSwitch.isChecked()) {
+                        p.setValor_mensal("SIM");
+                    } else {
+                        p.setValor_mensal("NÃO");
+                    }
+
+                    preferenciasUsuarioDAO.atualizar(p);
+
+                    LayoutInflater inflater2 = getLayoutInflater();
+                    View layout = inflater2.inflate(R.layout.custom_toast, container, false);
+
+                    TextView texto = layout.findViewById(R.id.tvMensagem);
+                    texto.setText("Preferências alteradas com sucesso!");
+
+                    Toast toast = new Toast(getActivity().getApplicationContext());
+                    toast.setDuration(Toast.LENGTH_LONG);
+                    toast.setView(layout);
+                    toast.show();
+
+                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                    transaction.replace(R.id.container, new MapsFragment(), "MapsFragment");
+                    transaction.add(R.id.container, new BuscaFragment(), "BuscaFragment");
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                }
 
             }
         });
