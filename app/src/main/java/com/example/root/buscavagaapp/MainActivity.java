@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.RelativeLayout;
 
 
 public class MainActivity extends AppCompatActivity
@@ -87,6 +88,12 @@ public class MainActivity extends AppCompatActivity
     private void showFragment(Fragment fragment, String name){
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.container, fragment, name);
+        transaction.commit();
+    }
+
+    private void showFragment2(Fragment fragment, String name){
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.add(R.id.container, fragment, name);
         transaction.commit();
     }
 

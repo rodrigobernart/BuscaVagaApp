@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.io.IOException;
@@ -24,6 +25,7 @@ import java.util.List;
 public class BuscaFragment extends Fragment {
 
     private EditText mSearchText;
+
     public static final String TAG = "LOG";
 
     @Override
@@ -38,6 +40,7 @@ public class BuscaFragment extends Fragment {
 
     private void init(){
         Log.d(TAG, "init: initializing");
+
         mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
@@ -54,7 +57,9 @@ public class BuscaFragment extends Fragment {
 
     private void geoLocate(){
         Log.d(TAG, "geoLocate: geolocating");
+        
         String searchString = mSearchText.getText().toString();
+
         Geocoder geocoder = new Geocoder(getActivity());
         List<Address> list = new ArrayList<>();
         try{
@@ -68,8 +73,10 @@ public class BuscaFragment extends Fragment {
             LatLng buscaLoc = new LatLng(address.getLatitude(), address.getLongitude());
             MapsFragment.mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(buscaLoc, 13));
             //Toast.makeText(this, address.toString(), Toast.LENGTH_SHORT).show();
+
         } else {
             Toast.makeText(getActivity(), "Endereço não encontrado! Tente como no exemplo(Endereço, Cidade, UF): Avenida Paulista 1000, São paulo, SP", Toast.LENGTH_LONG).show();
         }
     }
 }
+

@@ -4,6 +4,8 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -11,9 +13,18 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.root.buscavagaapp.dao.PreferenciasUsuarioDAO;
 import com.example.root.buscavagaapp.modelo.DadosEmpresas;
@@ -27,6 +38,8 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.zip.Inflater;
 
 import me.drakeet.materialdialog.MaterialDialog;
 
@@ -39,11 +52,13 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
     public static final String TAG = "LOG";
     public static final int REQUEST_PERMISSIONS_CODE = 128;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         getMapAsync(this);
+
     }
 
     @Override
@@ -155,8 +170,8 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
     }
 
     //Alert solicitando permissão
-    private void callDialog(String mensagem, final String[] permissoes){
-        mMaterialDialog = new MaterialDialog(getActivity()).setTitle("Permissão").setMessage(mensagem).setPositiveButton("Ok", new View.OnClickListener(){
+    private void callDialog(String mensagem, final String[] permissoes) {
+        mMaterialDialog = new MaterialDialog(getActivity()).setTitle("Permissão").setMessage(mensagem).setPositiveButton("Ok", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ActivityCompat.requestPermissions(getActivity(), permissoes, REQUEST_PERMISSIONS_CODE);
