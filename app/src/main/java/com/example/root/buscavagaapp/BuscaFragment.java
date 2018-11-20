@@ -39,7 +39,7 @@ public class BuscaFragment extends Fragment {
     }
 
     private void init(){
-        Log.d(TAG, "init: initializing");
+        Log.d(TAG, "Inicializando");
 
         mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -56,7 +56,7 @@ public class BuscaFragment extends Fragment {
     }
 
     private void geoLocate(){
-        Log.d(TAG, "geoLocate: geolocating");
+        Log.d(TAG, "Buscando...");
         
         String searchString = mSearchText.getText().toString();
 
@@ -65,13 +65,13 @@ public class BuscaFragment extends Fragment {
         try{
             list = geocoder.getFromLocationName(searchString, 1);
         }catch (IOException e){
-            Log.e(TAG, "geoLocate: IOException: " + e.getMessage() );
+            Log.e(TAG, e.getMessage());
         }
         if(list.size() > 0){
             Address address = list.get(0);
-            Log.d(TAG, "geoLocate: found a location: " + address.toString());
+            Log.d(TAG, "Localização encontrada: " + address.toString());
             LatLng buscaLoc = new LatLng(address.getLatitude(), address.getLongitude());
-            MapsFragment.mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(buscaLoc, 13));
+            MapsFragment.mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(buscaLoc, 16));
             //Toast.makeText(this, address.toString(), Toast.LENGTH_SHORT).show();
 
         } else {
