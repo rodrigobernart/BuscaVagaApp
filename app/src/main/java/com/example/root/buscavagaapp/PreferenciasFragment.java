@@ -167,24 +167,41 @@ public class PreferenciasFragment extends Fragment {
                         p.setValor_mensal("NÃO");
                     }
 
-                    preferenciasUsuarioDAO.atualizar(p);
+                    if(p.getValor_meiahora().equals("NÃO") && p.getValor_umahora().equals("NÃO") && p.getValor_diaria().equals("NÃO")
+                            && p.getValor_semanal().equals("NÃO") && p.getValor_mensal().equals("NÃO")){
 
-                    LayoutInflater inflater2 = getLayoutInflater();
-                    View layout = inflater2.inflate(R.layout.custom_toast, container, false);
+                        LayoutInflater inflater2 = getLayoutInflater();
+                        View layout = inflater2.inflate(R.layout.custom_toast, container, false);
 
-                    TextView texto = layout.findViewById(R.id.tvMensagem);
-                    texto.setText("Preferências alteradas com sucesso!");
+                        TextView texto = layout.findViewById(R.id.tvMensagem);
+                        texto.setText("Você deve selecionar ao menos uma opção de períodos!");
 
-                    Toast toast = new Toast(getActivity().getApplicationContext());
-                    toast.setDuration(Toast.LENGTH_LONG);
-                    toast.setView(layout);
-                    toast.show();
+                        Toast toast = new Toast(getActivity().getApplicationContext());
+                        toast.setDuration(Toast.LENGTH_LONG);
+                        toast.setView(layout);
+                        toast.show();
 
-                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                    transaction.replace(R.id.container, new MapsFragment(), "MapsFragment");
-                    transaction.add(R.id.container, new BuscaFragment(), "BuscaFragment");
-                    transaction.addToBackStack(null);
-                    transaction.commit();
+                    } else {
+
+                        preferenciasUsuarioDAO.atualizar(p);
+
+                        LayoutInflater inflater3 = getLayoutInflater();
+                        View layout = inflater3.inflate(R.layout.custom_toast, container, false);
+
+                        TextView texto = layout.findViewById(R.id.tvMensagem);
+                        texto.setText("Preferências alteradas com sucesso!");
+
+                        Toast toast = new Toast(getActivity().getApplicationContext());
+                        toast.setDuration(Toast.LENGTH_LONG);
+                        toast.setView(layout);
+                        toast.show();
+
+                        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                        transaction.replace(R.id.container, new MapsFragment(), "MapsFragment");
+                        transaction.add(R.id.container, new BuscaFragment(), "BuscaFragment");
+                        transaction.addToBackStack(null);
+                        transaction.commit();
+                    }
                 }
 
             }

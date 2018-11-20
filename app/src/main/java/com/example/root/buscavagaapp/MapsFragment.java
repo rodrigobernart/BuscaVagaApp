@@ -153,7 +153,7 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
 
     private void zoomMapToMyLocation(Location location) {
         LatLng lastLocation = new LatLng(location.getLatitude(), location.getLongitude());
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lastLocation, 13));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lastLocation, DEFAULT_ZOOM));
 
     }
 
