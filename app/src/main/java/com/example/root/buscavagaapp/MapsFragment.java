@@ -4,84 +4,151 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.root.buscavagaapp.dao.PreferenciasUsuarioDAO;
 import com.example.root.buscavagaapp.modelo.DadosEmpresas;
 import com.example.root.buscavagaapp.WebService.WebServiceUtils;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.zip.Inflater;
-
-import me.drakeet.materialdialog.MaterialDialog;
 
 public class MapsFragment extends SupportMapFragment implements OnMapReadyCallback, LocationListener {
 
     public static GoogleMap mMap;
-    private MaterialDialog mMaterialDialog;
     private ProgressDialog progressao;
 
-    public static final String TAG = "LOG";
-    public static final int REQUEST_PERMISSIONS_CODE = 128;
+    private CameraPosition mCameraPosition;
+    private FusedLocationProviderClient mFusedLocationProviderClient;
+
+    //Localização padrão
+    private final LatLng mDefaultLocation = new LatLng(-33.8523341, 151.2106085);
+
+    private static final String TAG = "LOG";
+//    private static final int REQUEST_PERMISSIONS_CODE = 128;
+    private static final int DEFAULT_ZOOM = 13;
+    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+    private static final String KEY_CAMERA_POSITION = "camera_position";
+    private static final String KEY_LOCATION = "location";
+
+    private boolean mLocationPermissionGranted;
+
+    private Location mLastKnownLocation;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if(savedInstanceState != null){
+            mLastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
+            mCameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION);
+        }
+
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getContext());
+
         getMapAsync(this);
 
     }
 
     @Override
+    public void onSaveInstanceState(Bundle bundle) {
+        if(mMap != null){
+            bundle.putParcelable(KEY_CAMERA_POSITION, mMap.getCameraPosition());
+            bundle.putParcelable(KEY_LOCATION, mLastKnownLocation);
+            super.onSaveInstanceState(bundle);
+        }
+    }
+
+    @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        mMap.getUiSettings().setZoomControlsEnabled(true);
 
-        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)) {
-                callDialog("É preciso que a permissão ACESS_FINE_LOCATION esteja liberada para acesso.", new String[]{Manifest.permission.ACCESS_FINE_LOCATION});
-            } else {
-                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSIONS_CODE);
-            }
+        getLocationPermission();
 
-        } else {
-            readMyCurrentCoordinates();
-        }
+        updateLocationUI();
 
-        mMap.setMyLocationEnabled(true);
+        getDeviceLocation();
 
         ExecutaConexao executa = new ExecutaConexao();
         executa.execute();
 
+    }
+
+    private void getLocationPermission(){
+        if(ContextCompat.checkSelfPermission(getContext().getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+            mLocationPermissionGranted = true;
+        } else {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
+    }
+
+    private void getDeviceLocation() {
+        try {
+            if (mLocationPermissionGranted) {
+                Task<Location> locationResult = mFusedLocationProviderClient.getLastLocation();
+                locationResult.addOnCompleteListener(getActivity(), new OnCompleteListener<Location>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Location> task) {
+                        if (task.isSuccessful()) {
+                            // Set the map's camera position to the current location of the device.
+                            mLastKnownLocation = task.getResult();
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                                    new LatLng(mLastKnownLocation.getLatitude(),
+                                            mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
+                        } else {
+                            Log.d(TAG, "Localização atual não encontrada! Usando localização padrão...");
+                            Log.e(TAG, "Exception: %s", task.getException());
+                            mMap.moveCamera(CameraUpdateFactory
+                                    .newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
+                            mMap.getUiSettings().setMyLocationButtonEnabled(false);
+                        }
+                    }
+                });
+            }
+        } catch (SecurityException e)  {
+            Log.e(TAG, e.getMessage());
+        }
+    }
+
+    private void updateLocationUI(){
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+
+        if(mMap == null){
+            return;
+        }
+        try {
+            if(mLocationPermissionGranted){
+                readMyCurrentCoordinates();
+                mMap.setMyLocationEnabled(true);
+                mMap.getUiSettings().setMyLocationButtonEnabled(true);
+            } else {
+                mMap.setMyLocationEnabled(false);
+                mMap.getUiSettings().setMyLocationButtonEnabled(false);
+                mLastKnownLocation = null;
+                getLocationPermission();
+            }
+        } catch (SecurityException e){
+            Log.e(TAG, e.getMessage());
+        }
     }
 
     private void zoomMapToMyLocation(Location location) {
@@ -103,16 +170,13 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
             Log.i(TAG, "Nenhum serviço de localização está habilitado para uso.");
         } else {
             if (isInternetHabilitada) {
-                if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)) {
-                        callDialog("É preciso que a permissão ACESS_FINE_LOCATION esteja liberada para acesso.", new String[]{Manifest.permission.ACCESS_FINE_LOCATION});
-                    } else {
-                        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSIONS_CODE);
-                    }
+                try {
+                    locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2000, 0, this);
+                    location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                } catch (SecurityException e){
+                    Log.e(TAG, e.getMessage());
                 }
-                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2000, 0, this);
-                Log.d(TAG, "Internet");
-                location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
                 if (location != null) {
                     latitude = location.getLatitude();
                     longitude = location.getLongitude();
@@ -121,9 +185,13 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
 
             if (isGPSHabilitado) {
                 if (location == null) {
-                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 0, this);
-                    Log.d(TAG, "GPS Habilitado");
-                    location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                    try {
+                        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 0, this);
+                        Log.d(TAG, "GPS Habilitado");
+                        location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                    } catch (SecurityException e){
+                        Log.e(TAG, e.getMessage());
+                    }
                     if (location != null) {
                         latitude = location.getLatitude();
                         longitude = location.getLongitude();
@@ -134,6 +202,7 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
         zoomMapToMyLocation(location);
         Log.i(TAG, "Latitude: "+latitude+" | Longitude: "+longitude);
     }
+
 
     @Override
     public void onLocationChanged(Location location) {
@@ -157,33 +226,15 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissoes, @NonNull int[] grantResults) {
+        mLocationPermissionGranted = false;
         switch (requestCode) {
-            case REQUEST_PERMISSIONS_CODE: {
-                for (int i = 0; i < permissoes.length; i++) {
-                    if (permissoes[i].equalsIgnoreCase(Manifest.permission.ACCESS_FINE_LOCATION) && grantResults[i] == PackageManager.PERMISSION_GRANTED) {
-                        readMyCurrentCoordinates();
-                    }
+            case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    mLocationPermissionGranted = true;
                 }
             }
-            super.onRequestPermissionsResult(requestCode, permissoes, grantResults);
+            updateLocationUI();
         }
-    }
-
-    //Alert solicitando permissão
-    private void callDialog(String mensagem, final String[] permissoes) {
-        mMaterialDialog = new MaterialDialog(getActivity()).setTitle("Permissão").setMessage(mensagem).setPositiveButton("Ok", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ActivityCompat.requestPermissions(getActivity(), permissoes, REQUEST_PERMISSIONS_CODE);
-                mMaterialDialog.dismiss();
-            }
-        }).setNegativeButton("Cancelar", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mMaterialDialog.dismiss();
-            }
-        });
-        mMaterialDialog.show();
     }
 
     private class ExecutaConexao extends AsyncTask<Void, Void, ArrayList<DadosEmpresas>> {
