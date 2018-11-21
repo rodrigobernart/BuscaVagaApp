@@ -11,4 +11,9 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="texto_apresentacao">
+        O BuscaVaga é um aplicativo que visa apresentar os estacionamentos privados próximos a você e
+        próximos de seu destino.
+    </string>
+
 </resources>
