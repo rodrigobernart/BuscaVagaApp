@@ -5,7 +5,6 @@ public class InfoWindowData {
     private String nome;
     private String endereco;
     private String telefones;
-    private String vagas;
     private String precosCarro;
     private String precosMoto;
 
@@ -31,14 +30,6 @@ public class InfoWindowData {
 
     public void setTelefones(String telefones) {
         this.telefones = telefones;
-    }
-
-    public String getVagas() {
-        return vagas;
-    }
-
-    public void setVagas(String vagas) {
-        this.vagas = vagas;
     }
 
     public String getPrecosCarro() {
