@@ -49,6 +49,8 @@ public class WebServiceUtils{
                             empresas.setValor_diaria_c(objeto.getDouble("valor_diaria"));
                             empresas.setValor_semana_c(objeto.getDouble("valor_semana"));
                             empresas.setValor_mes_c(objeto.getDouble("valor_mes"));
+                            empresas.setQtd_cobertas_c(objeto.getInt("qtd_cobertas"));
+                            empresas.setQtd_descobertas_c(objeto.getInt("qtd_descobertas"));
                         }
                         else if(objeto.getString("tipo_veiculo").charAt(0) == 'M'){
                             empresas.setMoto(true);
@@ -57,6 +59,8 @@ public class WebServiceUtils{
                             empresas.setValor_diaria_m(objeto.getDouble("valor_diaria"));
                             empresas.setValor_semana_m(objeto.getDouble("valor_semana"));
                             empresas.setValor_mes_m(objeto.getDouble("valor_mes"));
+                            empresas.setQtd_cobertas_m(objeto.getInt("qtd_cobertas"));
+                            empresas.setQtd_descobertas_m(objeto.getInt("qtd_descobertas"));
                         }
                     }
                 }

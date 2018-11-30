@@ -77,6 +77,29 @@
             android:text="Mensal"
             android:textSize="15dp"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:text="Exibir quantidade de vagas disponíveis:"
+            android:textSize="15dp"
+            android:textStyle="bold"/>
+
+        <Switch
+            android:id="@+id/cobertasSwitch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cobertas"
+            android:textSize="15dp"/>
+
+        <Switch
+            android:id="@+id/descobertasSwitch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Descobertas"
+            android:textSize="15dp"/>
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

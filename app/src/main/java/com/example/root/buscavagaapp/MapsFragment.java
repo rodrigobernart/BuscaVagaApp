@@ -274,42 +274,57 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
                 info.setTelefones("Fixo: " + dadosEmpresa.getTelefone_fixo() + "\nCelular: " + dadosEmpresa.getTelefone_cel());
                 info.setEndereco("Endereço: " + dadosEmpresa.getEndereco());
 
-
                 //valida conforme as preferencias do usuário
                 if(preferenciasDao.retornaPreferencias().get(0).getCarro().equals("SIM")){
                     if(preferenciasDao.retornaPreferencias().get(0).getValor_meiahora().equals("SIM")){
                         if(dadosEmpresa.getValor_meiahora_c() != null && dadosEmpresa.getValor_meiahora_c() > 0) {
                             precosCarro += "Valor Meia Hora: R$ " + String.format("%.2f", dadosEmpresa.getValor_meiahora_c()) + "\n";
                         } else {
-                            precosCarro += "Valor Meia Hora: não informado pela empresa!";
+                            precosCarro += "Valor Meia Hora: não informado pela empresa!\n";
                         }
                     }
                     if(preferenciasDao.retornaPreferencias().get(0).getValor_umahora().equals("SIM")){
                         if(dadosEmpresa.getValor_umahora_c() != null && dadosEmpresa.getValor_umahora_c() > 0) {
                             precosCarro += "Valor Uma Hora:  R$ " + String.format("%.2f", dadosEmpresa.getValor_umahora_c()) + "\n";
                         } else {
-                            precosCarro += "Valor Uma Hora: não informado pela empresa!";
+                            precosCarro += "Valor Uma Hora: não informado pela empresa!\n";
                         }
                     }
                     if(preferenciasDao.retornaPreferencias().get(0).getValor_diaria().equals("SIM")){
                         if(dadosEmpresa.getValor_diaria_c() != null && dadosEmpresa.getValor_diaria_c() > 0) {
-                            precosCarro += "Valor Diária:    R$ " + String.format("%.2f", dadosEmpresa.getValor_diaria_c()) + "\n";
+                            precosCarro += "Valor Diária: R$ " + String.format("%.2f", dadosEmpresa.getValor_diaria_c()) + "\n";
                         } else {
-                            precosCarro += "Valor Diária: não informado pela empresa!";
+                            precosCarro += "Valor Diária: não informado pela empresa!\n";
                         }
                     }
                     if(preferenciasDao.retornaPreferencias().get(0).getValor_semanal().equals("SIM")){
                         if(dadosEmpresa.getValor_semana_c() != null && dadosEmpresa.getValor_semana_c() > 0) {
                             precosCarro += "Valor Semanal:   R$ " + String.format("%.2f", dadosEmpresa.getValor_semana_c()) + "\n";
                         } else {
-                            precosCarro += "Valor Semanal: não informado pela empresa!";
+                            precosCarro += "Valor Semanal: não informado pela empresa!\n";
                         }
                     }
                     if(preferenciasDao.retornaPreferencias().get(0).getValor_mensal().equals("SIM")){
                         if(dadosEmpresa.getValor_mes_c() != null && dadosEmpresa.getValor_mes_c() > 0) {
-                            precosCarro += "Valor Mensal:    R$ " + String.format("%.2f", dadosEmpresa.getValor_mes_c()) + "\n";
+                            precosCarro += "Valor Mensal: R$ " + String.format("%.2f", dadosEmpresa.getValor_mes_c()) + "\n";
                         } else {
-                            precosCarro += "Valor Mensal: não informado pela empresa!";
+                            precosCarro += "Valor Mensal: não informado pela empresa!\n";
+                        }
+                    }
+
+                    if(preferenciasDao.retornaPreferencias().get(0).getCobertas().equals("SIM")){
+                        if(dadosEmpresa.getQtd_cobertas_c() > 0) {
+                            precosCarro += "Vagas cobertas: " + dadosEmpresa.getQtd_cobertas_c() + "\n";
+                        } else {
+                            precosCarro += "Vagas cobertas: Indisponível\n";
+                        }
+                    }
+
+                    if(preferenciasDao.retornaPreferencias().get(0).getDescobertas().equals("SIM")){
+                        if(dadosEmpresa.getQtd_descobertas_c() > 0) {
+                            precosCarro += "Vagas descobertas: " + dadosEmpresa.getQtd_descobertas_c() + "\n";
+                        } else {
+                            precosCarro += "Vagas descobertas: Indisponível\n";
                         }
                     }
 
@@ -328,35 +343,51 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
                         if(dadosEmpresa.getValor_meiahora_m() != null && dadosEmpresa.getValor_meiahora_m() > 0) {
                             precosMoto += "Valor Meia Hora: R$ " + String.format("%.2f", dadosEmpresa.getValor_meiahora_m()) + "\n";
                         } else {
-                            precosMoto += "Valor Meia Hora: não informado pela empresa!";
+                            precosMoto += "Valor Meia Hora: não informado pela empresa!\n";
                         }
                     }
                     if(preferenciasDao.retornaPreferencias().get(0).getValor_umahora().equals("SIM")){
                         if(dadosEmpresa.getValor_umahora_m() != null && dadosEmpresa.getValor_umahora_m() > 0) {
-                            precosMoto += "Valor Uma Hora:  R$ " + String.format("%.2f", dadosEmpresa.getValor_umahora_m()) + "\n";
+                            precosMoto += "Valor Uma Hora: R$ " + String.format("%.2f", dadosEmpresa.getValor_umahora_m()) + "\n";
                         } else {
-                            precosMoto += "Valor Uma Hora: não informado pela empresa!";
+                            precosMoto += "Valor Uma Hora: não informado pela empresa!\n";
                         }
                     }
                     if(preferenciasDao.retornaPreferencias().get(0).getValor_diaria().equals("SIM")){
                         if(dadosEmpresa.getValor_diaria_m() != null && dadosEmpresa.getValor_diaria_m() > 0) {
-                            precosMoto += "Valor Diária:    R$ " + String.format("%.2f", dadosEmpresa.getValor_diaria_m()) + "\n";
+                            precosMoto += "Valor Diária: R$ " + String.format("%.2f", dadosEmpresa.getValor_diaria_m()) + "\n";
                         } else {
-                            precosMoto += "Valor Diária: não informado pela empresa!";
+                            precosMoto += "Valor Diária: não informado pela empresa!\n";
                         }
                     }
                     if(preferenciasDao.retornaPreferencias().get(0).getValor_semanal().equals("SIM")){
                         if(dadosEmpresa.getValor_semana_m() != null && dadosEmpresa.getValor_semana_m() > 0) {
-                            precosMoto += "Valor Semanal:   R$ " + String.format("%.2f", dadosEmpresa.getValor_semana_m()) + "\n";
+                            precosMoto += "Valor Semanal: R$ " + String.format("%.2f", dadosEmpresa.getValor_semana_m()) + "\n";
                         } else {
-                            precosMoto += "Valor Semanal: não informado pela empresa!";
+                            precosMoto += "Valor Semanal: não informado pela empresa!\n";
                         }
                     }
                     if(preferenciasDao.retornaPreferencias().get(0).getValor_mensal().equals("SIM")){
                         if(dadosEmpresa.getValor_mes_m() != null && dadosEmpresa.getValor_mes_m() > 0) {
-                            precosMoto += "Valor Mensal:    R$ " + String.format("%.2f", dadosEmpresa.getValor_mes_m());
+                            precosMoto += "Valor Mensal: R$ " + String.format("%.2f", dadosEmpresa.getValor_mes_m()) + "\n";
                         } else {
-                            precosMoto += "Valor Mensal: não informado pela empresa!";
+                            precosMoto += "Valor Mensal: não informado pela empresa!\n";
+                        }
+                    }
+
+                    if(preferenciasDao.retornaPreferencias().get(0).getCobertas().equals("SIM")){
+                        if(dadosEmpresa.getQtd_cobertas_m() > 0) {
+                            precosMoto += "Vagas cobertas: " + dadosEmpresa.getQtd_cobertas_m() + "\n";
+                        } else {
+                            precosMoto += "Vagas cobertas: Indisponível\n";
+                        }
+                    }
+
+                    if(preferenciasDao.retornaPreferencias().get(0).getDescobertas().equals("SIM")){
+                        if(dadosEmpresa.getQtd_descobertas_m() > 0) {
+                            precosMoto += "Vagas descobertas: " + dadosEmpresa.getQtd_descobertas_m() + "\n";
+                        } else {
+                            precosMoto += "Vagas descobertas: Indisponível\n";
                         }
                     }
 

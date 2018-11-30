@@ -15,12 +15,16 @@ public class DadosEmpresas {
     private Double valor_diaria_c;
     private Double valor_semana_c;
     private Double valor_mes_c;
+    private int qtd_cobertas_c;
+    private int qtd_descobertas_c;
     private boolean moto;
     private Double valor_meiahora_m;
     private Double valor_umahora_m;
     private Double valor_diaria_m;
     private Double valor_semana_m;
     private Double valor_mes_m;
+    private int qtd_cobertas_m;
+    private int qtd_descobertas_m;
 
 
     public int getId_empresa() {
@@ -127,6 +131,22 @@ public class DadosEmpresas {
         this.valor_mes_c = valor_mes_c;
     }
 
+    public int getQtd_cobertas_c() {
+        return qtd_cobertas_c;
+    }
+
+    public void setQtd_cobertas_c(int qtd_cobertas_c) {
+        this.qtd_cobertas_c = qtd_cobertas_c;
+    }
+
+    public int getQtd_descobertas_c() {
+        return qtd_descobertas_c;
+    }
+
+    public void setQtd_descobertas_c(int qtd_descobertas_c) {
+        this.qtd_descobertas_c = qtd_descobertas_c;
+    }
+
     public boolean isMoto() {
         return moto;
     }
@@ -173,5 +193,21 @@ public class DadosEmpresas {
 
     public void setValor_mes_m(Double valor_mes_m) {
         this.valor_mes_m = valor_mes_m;
+    }
+
+    public int getQtd_cobertas_m() {
+        return qtd_cobertas_m;
+    }
+
+    public void setQtd_cobertas_m(int qtd_cobertas_m) {
+        this.qtd_cobertas_m = qtd_cobertas_m;
+    }
+
+    public int getQtd_descobertas_m() {
+        return qtd_descobertas_m;
+    }
+
+    public void setQtd_descobertas_m(int qtd_descobertas_m) {
+        this.qtd_descobertas_m = qtd_descobertas_m;
     }
 }

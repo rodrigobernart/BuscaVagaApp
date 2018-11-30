@@ -9,6 +9,8 @@ public class PreferenciasUsuario {
     private String valor_diaria;
     private String valor_semanal;
     private String valor_mensal;
+    private String cobertas;
+    private String descobertas;
 
     public String getCarro() {
         return carro;
@@ -64,5 +66,21 @@ public class PreferenciasUsuario {
 
     public void setValor_mensal(String valor_mensal) {
         this.valor_mensal = valor_mensal;
+    }
+
+    public String getCobertas() {
+        return cobertas;
+    }
+
+    public void setCobertas(String cobertas) {
+        this.cobertas = cobertas;
+    }
+
+    public String getDescobertas() {
+        return descobertas;
+    }
+
+    public void setDescobertas(String descobertas) {
+        this.descobertas = descobertas;
     }
 }
