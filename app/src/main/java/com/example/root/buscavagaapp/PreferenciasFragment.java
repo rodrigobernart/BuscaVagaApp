@@ -27,6 +27,8 @@ public class PreferenciasFragment extends Fragment {
     private Switch diariaSwitch;
     private Switch semanalSwitch;
     private Switch mensalSwitch;
+    private Switch cobertasSwitch;
+    private Switch descobertasSwitch;
     private Button btSalvar;
     private Button btLimpar;
 
@@ -44,6 +46,8 @@ public class PreferenciasFragment extends Fragment {
         diariaSwitch = view.findViewById(R.id.diariaSwitch);
         semanalSwitch = view.findViewById(R.id.semanalSwitch);
         mensalSwitch = view.findViewById(R.id.mensalSwitch);
+        cobertasSwitch = view.findViewById(R.id.cobertasSwitch);
+        descobertasSwitch = view.findViewById(R.id.descobertasSwitch);
 
         preferenciasUsuarioDAO = new PreferenciasUsuarioDAO(getActivity());
 
@@ -91,6 +95,18 @@ public class PreferenciasFragment extends Fragment {
             mensalSwitch.setChecked(false);
         }
 
+        if(Globais.listaPreferencias.get(0).getCobertas().equals("SIM")){
+            cobertasSwitch.setChecked(true);
+        } else {
+            cobertasSwitch.setChecked(false);
+        }
+
+        if(Globais.listaPreferencias.get(0).getDescobertas().equals("SIM")){
+            descobertasSwitch.setChecked(true);
+        } else {
+            descobertasSwitch.setChecked(false);
+        }
+
         btLimpar = view.findViewById(R.id.btLimpar);
         btLimpar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,6 +118,8 @@ public class PreferenciasFragment extends Fragment {
                 diariaSwitch.setChecked(false);
                 semanalSwitch.setChecked(false);
                 mensalSwitch.setChecked(false);
+                cobertasSwitch.setChecked(false);
+                descobertasSwitch.setChecked(false);
             }
         });
 
@@ -130,7 +148,7 @@ public class PreferenciasFragment extends Fragment {
                     View layout = inflater1.inflate(R.layout.custom_toast, container, false);
 
                     TextView texto = layout.findViewById(R.id.tvMensagem);
-                    texto.setText("Você deve selecionar ao menos uma opção de veículos!");
+                    texto.setText("Você deve selecionar ao menos uma opção de veículo!");
 
                     Toast toast = new Toast(getActivity().getApplicationContext());
                     toast.setDuration(Toast.LENGTH_LONG);
@@ -167,6 +185,18 @@ public class PreferenciasFragment extends Fragment {
                         p.setValor_mensal("NÃO");
                     }
 
+                    if (cobertasSwitch.isChecked()){
+                        p.setCobertas("SIM");
+                    } else {
+                        p.setCobertas("NÃO");
+                    }
+
+                    if (descobertasSwitch.isChecked()){
+                        p.setDescobertas("SIM");
+                    } else {
+                        p.setDescobertas("NÃO");
+                    }
+
                     if(p.getValor_meiahora().equals("NÃO") && p.getValor_umahora().equals("NÃO") && p.getValor_diaria().equals("NÃO")
                             && p.getValor_semanal().equals("NÃO") && p.getValor_mensal().equals("NÃO")){
 
@@ -174,7 +204,7 @@ public class PreferenciasFragment extends Fragment {
                         View layout = inflater2.inflate(R.layout.custom_toast, container, false);
 
                         TextView texto = layout.findViewById(R.id.tvMensagem);
-                        texto.setText("Você deve selecionar ao menos uma opção de períodos!");
+                        texto.setText("Você deve selecionar ao menos uma opção de período!");
 
                         Toast toast = new Toast(getActivity().getApplicationContext());
                         toast.setDuration(Toast.LENGTH_LONG);

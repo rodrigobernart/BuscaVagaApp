@@ -61,15 +61,15 @@
                 android:background="#DD2A7B"
                 android:id="@+id/btInstagram"/>
 
-            <Button
-                android:layout_marginTop="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Avalie-nos na Play Store"
-                android:textColor="#FFFFFF"
-                android:layout_margin="8dp"
-                android:background="#008000"
-                android:id="@+id/btPlayStore"/>
+            <!--<Button-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Avalie-nos na Play Store"-->
+                <!--android:textColor="#FFFFFF"-->
+                <!--android:layout_margin="8dp"-->
+                <!--android:background="#008000"-->
+                <!--android:id="@+id/btPlayStore"/>-->
 
         </LinearLayout>
     </ScrollView>

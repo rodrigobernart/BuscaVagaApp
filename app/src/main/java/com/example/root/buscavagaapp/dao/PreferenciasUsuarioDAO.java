@@ -17,7 +17,7 @@ public class PreferenciasUsuarioDAO {
 
     private SQLiteOpenHelper dbHelper;
     private SQLiteDatabase db;
-    private String[] colunas = {"CARRO", "MOTO", "VALOR_MEIAHORA", "VALOR_UMAHORA", "VALOR_DIARIA", "VALOR_SEMANAL", "VALOR_MENSAL"};
+    private String[] colunas = {"CARRO", "MOTO", "VALOR_MEIAHORA", "VALOR_UMAHORA", "VALOR_DIARIA", "VALOR_SEMANAL", "VALOR_MENSAL", "COBERTAS", "DESCOBERTAS"};
 
     public PreferenciasUsuarioDAO(Context context){
         dbHelper = new SQLiteHelper(context,"PREFERENCIAS_USUARIO", null, 1);
@@ -34,6 +34,8 @@ public class PreferenciasUsuarioDAO {
             valores.put("VALOR_DIARIA", preferenciasUsuario.getValor_diaria());
             valores.put("VALOR_SEMANAL", preferenciasUsuario.getValor_semanal());
             valores.put("VALOR_MENSAL", preferenciasUsuario.getValor_mensal());
+            valores.put("COBERTAS", preferenciasUsuario.getCobertas());
+            valores.put("DESCOBERTAS", preferenciasUsuario.getDescobertas());
 
             return db.update("PREFERENCIAS_USUARIO", valores, null, null);
         } catch (SQLException ex){
@@ -57,6 +59,8 @@ public class PreferenciasUsuarioDAO {
                     preferenciasUsuario.setValor_diaria(cursor.getString(4));
                     preferenciasUsuario.setValor_semanal(cursor.getString(5));
                     preferenciasUsuario.setValor_mensal(cursor.getString(6));
+                    preferenciasUsuario.setCobertas(cursor.getString(7));
+                    preferenciasUsuario.setDescobertas(cursor.getString(8));
 
                     listaPreferencias.add(preferenciasUsuario);
                 } while (cursor.moveToNext());

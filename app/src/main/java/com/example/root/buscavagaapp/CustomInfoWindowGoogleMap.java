@@ -33,7 +33,6 @@ public class CustomInfoWindowGoogleMap implements GoogleMap.InfoWindowAdapter {
         ImageView ivMoto = v.findViewById(R.id.ivMoto);
         TextView tvPrecosMoto = v.findViewById(R.id.tvPrecosMoto);
 
-
         InfoWindowData infoWindowData = (InfoWindowData) marker.getTag();
         tvEstacionamento.setText(infoWindowData.getNome());
         tvEndereco.setText(infoWindowData.getEndereco());
