@@ -1,6 +1,7 @@
 package com.example.root.buscavagaapp;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -22,6 +23,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -266,8 +268,8 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
                 PreferenciasUsuarioDAO preferenciasDao = new PreferenciasUsuarioDAO(getActivity());
                 preferenciasDao.retornaPreferencias();
 
-                String precosCarro = "";
-                String precosMoto = "";
+                String precosCarro = "Carro:\n";
+                String precosMoto = "Moto:\n";
 
                 InfoWindowData info = new InfoWindowData();
                 info.setNome(dadosEmpresa.getNome_empresa());
@@ -397,15 +399,28 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
                         info.setPrecosMoto("Não foram informados valores\npara esse estacionamento ainda :(");
                     }
                 } else if (preferenciasDao.retornaPreferencias().get(0).getMoto().equals("NÃO")){
-                    precosMoto = "Você optou por não exibir valores para carros.\nCaso desejar habilite essa opção na tela de preferências";
+                    precosMoto = "Você optou por não exibir valores para motos.\nCaso desejar habilite essa opção na tela de preferências";
                     info.setPrecosMoto(precosMoto);
                 }
 
                 CustomInfoWindowGoogleMap customInfoWindow = new CustomInfoWindowGoogleMap(getActivity());
                 mMap.setInfoWindowAdapter(customInfoWindow);
 
+                markerOptions.title(dadosEmpresa.getNome_empresa()).snippet(precosCarro + "\n" + precosMoto);
+                //alterar apenas quando aberto
+                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_mapa_green));
                 Marker m = mMap.addMarker(markerOptions);
                 m.setTag(info);
+
+                mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                    @Override
+                    public void onInfoWindowClick(Marker marker) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+                        builder.setTitle(marker.getTitle()).setMessage(marker.getSnippet()).show();
+
+                    }
+                });
             }
             progressao.dismiss();
         }
