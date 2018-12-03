@@ -417,14 +417,11 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
 
                 //pega hora atual do celular
                 String horaAtual = new SimpleDateFormat("HH:mm").format(new Date().getTime());
-                Log.e("HORA", horaAtual);
 
-                //pega dia da semana
+                //pega dia da semana atual
                 Calendar c = Calendar.getInstance();
                 c.setTime(new Date(System.currentTimeMillis()));
                 int diaSemana = c.get(c.DAY_OF_WEEK);
-
-                SimpleDateFormat format = new SimpleDateFormat("HH:mm");
 
                 //checa o dia da semana da hora atual
                 if(diaSemana == Calendar.SUNDAY){
