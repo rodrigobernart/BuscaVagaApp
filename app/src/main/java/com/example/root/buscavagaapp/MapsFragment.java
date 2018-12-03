@@ -31,7 +31,14 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import java.sql.Time;
+import java.text.DateFormatSymbols;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class MapsFragment extends SupportMapFragment implements OnMapReadyCallback, LocationListener {
 
@@ -407,8 +414,51 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
                 mMap.setInfoWindowAdapter(customInfoWindow);
 
                 markerOptions.title(dadosEmpresa.getNome_empresa()).snippet(precosCarro + "\n" + precosMoto);
-                //alterar apenas quando aberto
-                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_mapa_green));
+
+                //pega hora atual do celular
+                String horaAtual = new SimpleDateFormat("HH:mm").format(new Date().getTime());
+                Log.e("HORA", horaAtual);
+
+                //pega dia da semana
+                Calendar c = Calendar.getInstance();
+                c.setTime(new Date(System.currentTimeMillis()));
+                int diaSemana = c.get(c.DAY_OF_WEEK);
+
+                SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+
+                //checa o dia da semana da hora atual
+                if(diaSemana == Calendar.SUNDAY){
+                    try {
+                        if(new SimpleDateFormat("HH:mm").parse(dadosEmpresa.getHr_dom_fer()).before(new SimpleDateFormat("HH:mm").parse(horaAtual))
+                                && new SimpleDateFormat("HH:mm").parse(dadosEmpresa.getHr_dom_fer_fim()).after(new SimpleDateFormat("HH:mm").parse(horaAtual))){
+                            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_mapa_green));
+                        }
+
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                } else if (diaSemana == Calendar.SATURDAY){
+                    try {
+                        if(new SimpleDateFormat("HH:mm").parse(dadosEmpresa.getHr_dom_fer()).before(new SimpleDateFormat("HH:mm").parse(horaAtual))
+                                && new SimpleDateFormat("HH:mm").parse(dadosEmpresa.getHr_dom_fer_fim()).after(new SimpleDateFormat("HH:mm").parse(horaAtual))){
+                            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_mapa_green));
+                        }
+
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    try {
+                        if(new SimpleDateFormat("HH:mm").parse(dadosEmpresa.getHr_dom_fer()).before(new SimpleDateFormat("HH:mm").parse(horaAtual))
+                                && new SimpleDateFormat("HH:mm").parse(dadosEmpresa.getHr_dom_fer_fim()).after(new SimpleDateFormat("HH:mm").parse(horaAtual))){
+                            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_mapa_green));
+                        }
+
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+
                 Marker m = mMap.addMarker(markerOptions);
                 m.setTag(info);
 

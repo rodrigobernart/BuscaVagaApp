@@ -36,12 +36,12 @@ public class WebServiceUtils{
                 empresas.setTelefone_cel(objArray.getString("telefone_cel"));
                 empresas.setLatitude(objArray.getDouble("latitude"));
                 empresas.setLongitude(objArray.getDouble("longitude"));
-//                empresas.setHr_seg_sex(new java.util.Date(objArray.getString("hr_seg_sex")));
-//                empresas.setHr_seg_sex_fim(new java.util.Date(objArray.getString("hr_seg_sex_fim")));
-//                empresas.setHr_sabado(new java.util.Date(objArray.getString("hr_sabado")));
-//                empresas.setHr_sabado_fim(new java.util.Date(objArray.getString("hr_sabado_fim")));
-//                empresas.setHr_dom_fer(new java.util.Date(objArray.getString("hr_dom_fer")));
-//                empresas.setHr_dom_fer_fim(new java.util.Date(objArray.getString("hr_dom_fer_fim")));
+                empresas.setHr_seg_sex(objArray.getString("hr_seg_sex"));
+                empresas.setHr_seg_sex_fim(objArray.getString("hr_seg_sex_fim"));
+                empresas.setHr_sabado(objArray.getString("hr_sabado"));
+                empresas.setHr_sabado_fim(objArray.getString("hr_sabado_fim"));
+                empresas.setHr_dom_fer(objArray.getString("hr_dom_fer"));
+                empresas.setHr_dom_fer_fim(objArray.getString("hr_dom_fer_fim"));
 
                 if(objArray.has("parametros_empresa")){
                     JSONArray ja = objArray.getJSONArray("parametros_empresa");
