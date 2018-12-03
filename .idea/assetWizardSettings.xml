@@ -45,7 +45,7 @@
                                   <option name="values">
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
-                                      <entry key="imageAsset" value="C:\Users\rodri\Downloads\clipart1053916.png" />
+                                      <entry key="imageAsset" value="$APPLICATION_HOME_DIR$/bin/C:\Users\rodri\Downloads\clipart1053916.png" />
                                       <entry key="outputName" value="ic_search" />
                                       <entry key="theme" value="CUSTOM" />
                                       <entry key="themeColor" value="2ee518" />
@@ -77,8 +77,8 @@
                                       <entry key="assetType" value="IMAGE" />
                                       <entry key="cropped" value="true" />
                                       <entry key="iconShape" value="NONE" />
-                                      <entry key="imageAsset" value="C:\Users\rodri\Downloads\clipart1053916.png" />
-                                      <entry key="outputName" value="ic_mapa_green" />
+                                      <entry key="imageAsset" value="/home/rodrigo/Downloads/sobre_busca.png" />
+                                      <entry key="outputName" value="ic_sobre_busca" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -90,7 +90,7 @@
                                   <option name="values">
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
-                                      <entry key="imageAsset" value="C:\Users\rodri\Downloads\clipart1053916.png" />
+                                      <entry key="imageAsset" value="$APPLICATION_HOME_DIR$/bin/C:\Users\rodri\Downloads\clipart1053916.png" />
                                       <entry key="outputName" value="ic_alerta" />
                                     </map>
                                   </option>
