@@ -99,9 +99,9 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_preferencias:
                 showFragment(new PreferenciasFragment(), "PreferenciasFragment");
                 break;
-//            case R.id.nav_tutorial:
-//                showFragment(new AjudaFragment(), "AjudaFragment");
-//                break;
+            case R.id.nav_tutorial:
+                showFragment(new AjudaFragment(), "AjudaFragment");
+                break;
             case R.id.nav_sobre:
                 showFragment(new SobreFragment(), "SobreFragment");
                 break;

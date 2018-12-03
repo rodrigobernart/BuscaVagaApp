@@ -435,8 +435,8 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
                     }
                 } else if (diaSemana == Calendar.SATURDAY){
                     try {
-                        if(new SimpleDateFormat("HH:mm").parse(dadosEmpresa.getHr_dom_fer()).before(new SimpleDateFormat("HH:mm").parse(horaAtual))
-                                && new SimpleDateFormat("HH:mm").parse(dadosEmpresa.getHr_dom_fer_fim()).after(new SimpleDateFormat("HH:mm").parse(horaAtual))){
+                        if(new SimpleDateFormat("HH:mm").parse(dadosEmpresa.getHr_sabado()).before(new SimpleDateFormat("HH:mm").parse(horaAtual))
+                                && new SimpleDateFormat("HH:mm").parse(dadosEmpresa.getHr_sabado_fim()).after(new SimpleDateFormat("HH:mm").parse(horaAtual))){
                             markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_mapa_green));
                         }
 
@@ -445,8 +445,8 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
                     }
                 } else {
                     try {
-                        if(new SimpleDateFormat("HH:mm").parse(dadosEmpresa.getHr_dom_fer()).before(new SimpleDateFormat("HH:mm").parse(horaAtual))
-                                && new SimpleDateFormat("HH:mm").parse(dadosEmpresa.getHr_dom_fer_fim()).after(new SimpleDateFormat("HH:mm").parse(horaAtual))){
+                        if(new SimpleDateFormat("HH:mm").parse(dadosEmpresa.getHr_seg_sex()).before(new SimpleDateFormat("HH:mm").parse(horaAtual))
+                                && new SimpleDateFormat("HH:mm").parse(dadosEmpresa.getHr_seg_sex_fim()).after(new SimpleDateFormat("HH:mm").parse(horaAtual))){
                             markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_mapa_green));
                         }
 

@@ -16,4 +16,8 @@
         próximos de seu destino.
     </string>
 
+    <string name="link_manual">
+        <a href="https://drive.google.com/file/d/1YjoCs1tUOk310n03bRtp9CfiDPSw6Pyf/view?usp=sharing">Clique aqui para acessar o manual</a>
+    </string>
+
 </resources>
