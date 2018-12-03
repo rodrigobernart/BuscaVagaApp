@@ -1,5 +1,7 @@
 package com.example.root.buscavagaapp.modelo;
 
+import java.util.Date;
+
 public class DadosEmpresas {
 
     private int id_empresa;
@@ -25,6 +27,12 @@ public class DadosEmpresas {
     private Double valor_mes_m;
     private int qtd_cobertas_m;
     private int qtd_descobertas_m;
+    private String hr_seg_sex;
+    private String hr_seg_sex_fim;
+    private String hr_sabado;
+    private String hr_sabado_fim;
+    private String hr_dom_fer;
+    private String hr_dom_fer_fim;
 
 
     public int getId_empresa() {
@@ -209,5 +217,53 @@ public class DadosEmpresas {
 
     public void setQtd_descobertas_m(int qtd_descobertas_m) {
         this.qtd_descobertas_m = qtd_descobertas_m;
+    }
+
+    public String getHr_seg_sex() {
+        return hr_seg_sex;
+    }
+
+    public void setHr_seg_sex(String hr_seg_sex) {
+        this.hr_seg_sex = hr_seg_sex;
+    }
+
+    public String getHr_seg_sex_fim() {
+        return hr_seg_sex_fim;
+    }
+
+    public void setHr_seg_sex_fim(String hr_seg_sex_fim) {
+        this.hr_seg_sex_fim = hr_seg_sex_fim;
+    }
+
+    public String getHr_sabado() {
+        return hr_sabado;
+    }
+
+    public void setHr_sabado(String hr_sabado) {
+        this.hr_sabado = hr_sabado;
+    }
+
+    public String getHr_sabado_fim() {
+        return hr_sabado_fim;
+    }
+
+    public void setHr_sabado_fim(String hr_sabado_fim) {
+        this.hr_sabado_fim = hr_sabado_fim;
+    }
+
+    public String getHr_dom_fer() {
+        return hr_dom_fer;
+    }
+
+    public void setHr_dom_fer(String hr_dom_fer) {
+        this.hr_dom_fer = hr_dom_fer;
+    }
+
+    public String getHr_dom_fer_fim() {
+        return hr_dom_fer_fim;
+    }
+
+    public void setHr_dom_fer_fim(String hr_dom_fer_fim) {
+        this.hr_dom_fer_fim = hr_dom_fer_fim;
     }
 }

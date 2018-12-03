@@ -1,6 +1,7 @@
 package com.example.root.buscavagaapp.WebService;
 
 import com.example.root.buscavagaapp.modelo.DadosEmpresas;
+import com.example.root.buscavagaapp.modelo.Voucher;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,6 +16,15 @@ public class WebServiceUtils{
         json = ConexaoUtils.retornaJSON(url);
 
         retorno = converteJSON(json);
+        return retorno;
+    }
+
+    public ArrayList<Voucher> retornaVoucher(String url){
+        String json;
+        ArrayList<Voucher> retorno;
+        json = ConexaoUtils.retornaJSON(url);
+
+        retorno = converteVoucherJSON(json);
         return retorno;
     }
 
@@ -36,6 +46,12 @@ public class WebServiceUtils{
                 empresas.setTelefone_cel(objArray.getString("telefone_cel"));
                 empresas.setLatitude(objArray.getDouble("latitude"));
                 empresas.setLongitude(objArray.getDouble("longitude"));
+                empresas.setHr_seg_sex(objArray.getString("hr_seg_sex"));
+                empresas.setHr_seg_sex_fim(objArray.getString("hr_seg_sex_fim"));
+                empresas.setHr_sabado(objArray.getString("hr_sabado"));
+                empresas.setHr_sabado_fim(objArray.getString("hr_sabado_fim"));
+                empresas.setHr_dom_fer(objArray.getString("hr_dom_fer"));
+                empresas.setHr_dom_fer_fim(objArray.getString("hr_dom_fer_fim"));
 
                 if(objArray.has("parametros_empresa")){
                     JSONArray ja = objArray.getJSONArray("parametros_empresa");
@@ -72,5 +88,32 @@ public class WebServiceUtils{
             ex.printStackTrace();
             return null;
         }
+    }
+
+    private ArrayList<Voucher> converteVoucherJSON(String json){
+        try {
+            ArrayList<Voucher> listaVouchers = new ArrayList<>();
+
+            JSONObject jsonObj = new JSONObject(json);
+            JSONArray jsonArray = jsonObj.getJSONArray("cupom");
+
+            for(int i = 0; i < jsonArray.length(); i++){
+                JSONObject objArray = jsonArray.getJSONObject(i);
+                Voucher voucher = new Voucher();
+
+                voucher.setCodigo(objArray.getString("codigo"));
+                voucher.setDescricao(objArray.getString("descricao"));
+                voucher.setValidade(objArray.getString("validade"));
+
+                listaVouchers.add(voucher);
+            }
+
+            return  listaVouchers;
+
+        } catch (JSONException ex){
+            ex.printStackTrace();
+            return null;
+        }
+
     }
 }
