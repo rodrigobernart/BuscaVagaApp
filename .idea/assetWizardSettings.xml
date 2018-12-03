@@ -127,7 +127,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/opt/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/maps/ic_map_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_card_giftcard_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -137,8 +137,8 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_mapa2" />
-                            <entry key="sourceFile" value="/home/rodrigo/Downloads/iconfinder_question_3017955.svg" />
+                            <entry key="outputName" value="ic_cupom" />
+                            <entry key="sourceFile" value="C:\home\rodrigo\Downloads\iconfinder_question_3017955.svg" />
                           </map>
                         </option>
                       </PersistentState>

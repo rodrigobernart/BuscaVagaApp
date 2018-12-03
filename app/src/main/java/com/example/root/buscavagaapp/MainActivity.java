@@ -101,6 +101,8 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.nav_sobre:
                 showFragment(new SobreFragment(), "SobreFragment");
+            case R.id.nav_voucher:
+                showFragment(new VoucherFragment(), "VoucherFragment");
         }
 
 
