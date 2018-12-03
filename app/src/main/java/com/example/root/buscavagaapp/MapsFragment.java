@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -36,6 +37,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class MapsFragment extends SupportMapFragment implements OnMapReadyCallback, LocationListener {
 
@@ -460,6 +462,13 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
                     @Override
                     public void onInfoWindowClick(Marker marker) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+                        builder.setNegativeButton("Fechar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.dismiss();
+                            }
+                        });
 
                         builder.setTitle(marker.getTitle()).setMessage(marker.getSnippet()).show();
 
