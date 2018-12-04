@@ -436,8 +436,8 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
                             markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_mapa_green));
                         }
 
-                        markerOptions.title(dadosEmpresa.getNome_empresa()).snippet("Hora Abertura: " + dadosEmpresa.getHr_dom_fer() +
-                                        "\nHora Fechamento: " + dadosEmpresa.getHr_dom_fer_fim() + "\n" + precosCarro + "--------------------------------------------------------\n" + precosMoto);
+                        markerOptions.title(dadosEmpresa.getNome_empresa()).snippet("Horário de Abertura: " + dadosEmpresa.getHr_dom_fer() +
+                                        "\nHorário de Fechamento: " + dadosEmpresa.getHr_dom_fer_fim() + "\n" + precosCarro + "---------------------------------------------------\n" + precosMoto);
 
                     } catch (ParseException e) {
                         e.printStackTrace();
@@ -456,8 +456,8 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
                             markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_mapa_green));
                         }
 
-                        markerOptions.title(dadosEmpresa.getNome_empresa()).snippet("Hora Abertura: " + dadosEmpresa.getHr_sabado() +
-                                "\nHora Fechamento: " + dadosEmpresa.getHr_sabado_fim() + "\n" + precosCarro + "--------------------------------------------------------\n" + precosMoto);
+                        markerOptions.title(dadosEmpresa.getNome_empresa()).snippet("Horário de Abertura: " + dadosEmpresa.getHr_sabado() +
+                                "\nHorário de Fechamento: " + dadosEmpresa.getHr_sabado_fim() + "\n" + precosCarro + "---------------------------------------------------\n" + precosMoto);
 
                     } catch (ParseException e) {
                         e.printStackTrace();
@@ -478,8 +478,8 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
                             markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_mapa_green));
                         }
 
-                        markerOptions.title(dadosEmpresa.getNome_empresa()).snippet("Hora Abertura: " + dadosEmpresa.getHr_seg_sex() +
-                                "\nHora Fechamento: " + dadosEmpresa.getHr_seg_sex_fim() + "\n\n" + precosCarro + "--------------------------------------------------------\n" + precosMoto);
+                        markerOptions.title(dadosEmpresa.getNome_empresa()).snippet("Horário de Abertura: " + dadosEmpresa.getHr_seg_sex() +
+                                "\nHorário de Fechamento: " + dadosEmpresa.getHr_seg_sex_fim() + "\n\n" + precosCarro + "---------------------------------------------------\n" + precosMoto);
 
                     } catch (ParseException e) {
                         e.printStackTrace();
