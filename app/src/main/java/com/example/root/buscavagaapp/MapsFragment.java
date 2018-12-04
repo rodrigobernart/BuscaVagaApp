@@ -412,8 +412,6 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
                 CustomInfoWindowGoogleMap customInfoWindow = new CustomInfoWindowGoogleMap(getActivity());
                 mMap.setInfoWindowAdapter(customInfoWindow);
 
-                markerOptions.title(dadosEmpresa.getNome_empresa()).snippet(precosCarro + "\n" + precosMoto);
-
                 //pega hora atual do celular
                 String horaAtual = new SimpleDateFormat("HH:mm").format(new Date().getTime());
 
@@ -425,30 +423,63 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
                 //checa o dia da semana da hora atual
                 if(diaSemana == Calendar.SUNDAY){
                     try {
+
+                        if(new SimpleDateFormat("HH:mm").parse(dadosEmpresa.getHr_dom_fer_fim()).before(new SimpleDateFormat("HH:mm").parse(dadosEmpresa.getHr_dom_fer()))){
+                            if(new SimpleDateFormat("HH:mm").parse(dadosEmpresa.getHr_dom_fer_fim()).before(new SimpleDateFormat("HH:mm").parse(horaAtual))
+                                    && new SimpleDateFormat("HH:mm").parse(dadosEmpresa.getHr_dom_fer()).before(new SimpleDateFormat("HH:mm").parse(horaAtual))){
+                                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_mapa_green));
+                            }
+                        }
+
                         if(new SimpleDateFormat("HH:mm").parse(dadosEmpresa.getHr_dom_fer()).before(new SimpleDateFormat("HH:mm").parse(horaAtual))
                                 && new SimpleDateFormat("HH:mm").parse(dadosEmpresa.getHr_dom_fer_fim()).after(new SimpleDateFormat("HH:mm").parse(horaAtual))){
                             markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_mapa_green));
                         }
+
+                        markerOptions.title(dadosEmpresa.getNome_empresa()).snippet("Hora Abertura: " + dadosEmpresa.getHr_dom_fer() +
+                                        "\nHora Fechamento: " + dadosEmpresa.getHr_dom_fer_fim() + "\n" + precosCarro + "--------------------------------------------------------\n" + precosMoto);
 
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
                 } else if (diaSemana == Calendar.SATURDAY){
                     try {
+                        if(new SimpleDateFormat("HH:mm").parse(dadosEmpresa.getHr_sabado_fim()).before(new SimpleDateFormat("HH:mm").parse(dadosEmpresa.getHr_sabado()))){
+                            if(new SimpleDateFormat("HH:mm").parse(dadosEmpresa.getHr_sabado_fim()).before(new SimpleDateFormat("HH:mm").parse(horaAtual))
+                                    && new SimpleDateFormat("HH:mm").parse(dadosEmpresa.getHr_sabado()).before(new SimpleDateFormat("HH:mm").parse(horaAtual))){
+                                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_mapa_green));
+                            }
+                        }
+
                         if(new SimpleDateFormat("HH:mm").parse(dadosEmpresa.getHr_sabado()).before(new SimpleDateFormat("HH:mm").parse(horaAtual))
                                 && new SimpleDateFormat("HH:mm").parse(dadosEmpresa.getHr_sabado_fim()).after(new SimpleDateFormat("HH:mm").parse(horaAtual))){
                             markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_mapa_green));
                         }
+
+                        markerOptions.title(dadosEmpresa.getNome_empresa()).snippet("Hora Abertura: " + dadosEmpresa.getHr_sabado() +
+                                "\nHora Fechamento: " + dadosEmpresa.getHr_sabado_fim() + "\n" + precosCarro + "--------------------------------------------------------\n" + precosMoto);
 
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
                 } else {
                     try {
+                        //comparando horarios, caso a hora de abertura for após a hora de fechamento
+                        if(new SimpleDateFormat("HH:mm").parse(dadosEmpresa.getHr_seg_sex_fim()).before(new SimpleDateFormat("HH:mm").parse(dadosEmpresa.getHr_seg_sex()))){
+                            if(new SimpleDateFormat("HH:mm").parse(dadosEmpresa.getHr_seg_sex_fim()).before(new SimpleDateFormat("HH:mm").parse(horaAtual))
+                                    && new SimpleDateFormat("HH:mm").parse(dadosEmpresa.getHr_seg_sex()).before(new SimpleDateFormat("HH:mm").parse(horaAtual))){
+                                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_mapa_green));
+                            }
+                        }
+
+                        //comparando horários, caso a hora de abertura for antes da hora de fechamento
                         if(new SimpleDateFormat("HH:mm").parse(dadosEmpresa.getHr_seg_sex()).before(new SimpleDateFormat("HH:mm").parse(horaAtual))
                                 && new SimpleDateFormat("HH:mm").parse(dadosEmpresa.getHr_seg_sex_fim()).after(new SimpleDateFormat("HH:mm").parse(horaAtual))){
                             markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_mapa_green));
                         }
+
+                        markerOptions.title(dadosEmpresa.getNome_empresa()).snippet("Hora Abertura: " + dadosEmpresa.getHr_seg_sex() +
+                                "\nHora Fechamento: " + dadosEmpresa.getHr_seg_sex_fim() + "\n\n" + precosCarro + "--------------------------------------------------------\n" + precosMoto);
 
                     } catch (ParseException e) {
                         e.printStackTrace();

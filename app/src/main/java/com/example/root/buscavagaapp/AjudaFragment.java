@@ -17,7 +17,7 @@ public class AjudaFragment extends Fragment {
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ajuda, container, false);
 
-        tvLinkManual = (TextView) view.findViewById(R.id.tvLinkManual);
+        tvLinkManual = view.findViewById(R.id.tvLinkManual);
 
         tvLinkManual.setMovementMethod(LinkMovementMethod.getInstance());
 
